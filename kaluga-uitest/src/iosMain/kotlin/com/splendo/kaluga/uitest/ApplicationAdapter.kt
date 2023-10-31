@@ -18,7 +18,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
         val element = app
             .descendantsMatchingType(XCUIElementTypeAny)
             .matchingIdentifier(tag)
-            .element
+            .element.firstMatch
         return DefaultNode(app, element)
     }
 
@@ -26,7 +26,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
         val element = app
             .descendantsMatchingType(XCUIElementTypeAny)
             .matchingPredicate(NSPredicate.predicateWithFormat("label LIKE $text"))
-            .element
+            .element.firstMatch
         return DefaultNode(app, element)
     }
 

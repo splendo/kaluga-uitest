@@ -113,7 +113,9 @@ actual class DefaultNode(
     }
 
     override fun typeText(text: String) {
-        element.tap()
+        if (!element.hasFocus) {
+            element.tap()
+        }
         element.typeText(text)
     }
 
