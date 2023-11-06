@@ -44,5 +44,4 @@ class EmptyApplicationAdapter : ApplicationAdapter {
     override fun set(key: String, value: String) {
         throw IllegalStateException("This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter")
     }
-
 }
