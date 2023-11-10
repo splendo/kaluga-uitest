@@ -57,6 +57,7 @@ interface ApplicationAdapter {
      * so that if 2 or more element have the same [text], one can specify which type of element should
      * be taken.
      * @param text Text of a UI element.
+     * @param viewType type of the UI element.
      */
     fun findViewByText(text: String, viewType: ViewType = ViewType.Any()): Node
 
