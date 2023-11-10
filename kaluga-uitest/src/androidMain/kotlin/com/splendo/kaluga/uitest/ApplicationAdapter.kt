@@ -30,11 +30,11 @@ actual class DefaultApplicationAdapter(
         instrumentation.startActivitySync(intent)
     }
 
-    override fun findViewByTag(tag: String): Node {
+    override fun findViewByTag(tag: String, viewType: ViewType): Node {
         return DefaultNode(testRule.onNodeWithTag(tag))
     }
 
-    override fun findViewByText(text: String): Node {
+    override fun findViewByText(text: String, viewType: ViewType): Node {
         return DefaultNode(testRule.onNodeWithText(text))
     }
 

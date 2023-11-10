@@ -44,16 +44,22 @@ interface ApplicationAdapter {
     fun launch(identifier: String? = null, arguments: Map<String, String>)
 
     /**
-     * Returns a [Node] of an element with the given [tag]
+     * Returns a [Node] of an element with the given [tag]. A [ViewType] can be specified as well
+     * so that if 2 or more element have the same [tag], one can specify which type of element should
+     * be taken.
      * @param tag test tag of a UI element.
+     * @param viewType type of the UI element.
      */
-    fun findViewByTag(tag: String): Node
+    fun findViewByTag(tag: String, viewType: ViewType = ViewType.Any()): Node
 
     /**
-     * Returns a [Node] of an element with the given [text]
+     * Returns a [Node] of an element with the given [text].A [ViewType] can be specified as well
+     * so that if 2 or more element have the same [text], one can specify which type of element should
+     * be taken.
      * @param text Text of a UI element.
+     * @param viewType type of the UI element.
      */
-    fun findViewByText(text: String): Node
+    fun findViewByText(text: String, viewType: ViewType = ViewType.Any()): Node
 
     /**
      * Method to be called when you want to tear down the app.
