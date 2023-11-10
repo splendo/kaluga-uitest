@@ -23,14 +23,15 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
 
     override fun findViewByTag(tag: String, viewType: ViewType): Node {
         val element = findDescendantsMatchingType(viewType)
-            .matchingIdentifier(tag).element
+            .matchingIdentifier(tag)
+            .elementAtIndex(viewType.index.toULong())
         return DefaultNode(app, element)
     }
 
     override fun findViewByText(text: String, viewType: ViewType): Node {
         val element = findDescendantsMatchingType(viewType)
             .matchingPredicate(NSPredicate.predicateWithFormat("label LIKE $text"))
-            .element.firstMatch
+            .elementAtIndex(viewType.index.toULong())
         return DefaultNode(app, element)
     }
 
