@@ -47,7 +47,7 @@ interface ApplicationAdapter {
      * Returns a [Node] of an element with the given [tag]
      * @param tag test tag of a UI element.
      */
-    fun findViewByTag(tag: String): Node
+    fun findViewByTag(tag: String, viewType: ViewType = ViewType.Any()): Node
 
     /**
      * Returns a [Node] of an element with the given [text]

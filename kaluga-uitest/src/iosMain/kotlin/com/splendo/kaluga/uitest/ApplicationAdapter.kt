@@ -3,6 +3,11 @@ package com.splendo.kaluga.uitest
 import platform.Foundation.NSPredicate
 import platform.XCTest.XCUIApplication
 import platform.XCTest.XCUIElementTypeAny
+import platform.XCTest.XCUIElementTypeButton
+import platform.XCTest.XCUIElementTypeImage
+import platform.XCTest.XCUIElementTypeSecureTextField
+import platform.XCTest.XCUIElementTypeTextField
+import platform.XCTest.XCUIElementTypeTextView
 
 actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationAdapter() {
     private val app: XCUIApplication = app ?: XCUIApplication()
@@ -14,11 +19,19 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
         app.launch()
     }
 
-    override fun findViewByTag(tag: String): Node {
+    override fun findViewByTag(tag: String, viewType: ViewType): Node {
         val element = app
-            .descendantsMatchingType(XCUIElementTypeAny)
-            .matchingIdentifier(tag)
-            .element.firstMatch
+            .descendantsMatchingType(
+                when (viewType) {
+                    is ViewType.Any -> XCUIElementTypeAny
+                    is ViewType.Button -> XCUIElementTypeButton
+                    is ViewType.Images -> XCUIElementTypeImage
+                    is ViewType.SecureTextField -> XCUIElementTypeSecureTextField
+                    is ViewType.Text -> XCUIElementTypeTextView
+                    is ViewType.TextField -> XCUIElementTypeTextField
+                }
+            )
+            .matchingIdentifier(tag).element
         return DefaultNode(app, element)
     }
 
