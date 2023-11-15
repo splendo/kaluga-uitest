@@ -19,9 +19,9 @@ enum class TimeoutDuration(val duration: Duration) {
 }
 
 sealed class SwipeDuration(val duration: Duration) {
-    object Short : SwipeDuration(50.milliseconds)
-    object Medium : SwipeDuration(100.milliseconds)
-    object Long : SwipeDuration(200.milliseconds)
+    data object Short : SwipeDuration(50.milliseconds)
+    data object Medium : SwipeDuration(100.milliseconds)
+    data object Long : SwipeDuration(200.milliseconds)
     class Custom(duration: Duration) : SwipeDuration(duration)
 }
 
