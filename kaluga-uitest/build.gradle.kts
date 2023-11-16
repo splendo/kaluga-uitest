@@ -22,7 +22,7 @@ kotlin {
 
     val target: org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget.() -> Unit = {
         compilations.getByName("main") {
-            val xctest by cinterops.creating {
+            cinterops.create("xctest") {
                 defFile(project.file("src/iosMain/xctest.def"))
             }
         }
