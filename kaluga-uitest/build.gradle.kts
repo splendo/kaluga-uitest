@@ -6,7 +6,12 @@ plugins {
 
 
 kotlin {
-    android {
+    targets.configureEach {
+        compilations.configureEach {
+            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+        }
+    }
+    androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "11"
@@ -17,7 +22,7 @@ kotlin {
 
     val target: org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget.() -> Unit = {
         compilations.getByName("main") {
-            val xctest by cinterops.creating {
+            cinterops.create("xctest") {
                 defFile(project.file("src/iosMain/xctest.def"))
             }
         }
@@ -28,49 +33,36 @@ kotlin {
     iosSimulatorArm64(configure = target)
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+        all {
+            languageSettings {
+                if (this@all.name.lowercase().contains("ios")) {
+                    optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                }
             }
         }
-        val commonTest by getting {
+        getByName("commonMain") {
             dependencies {
-                val kalugaVersion: String by project
+                implementation(kotlin("test"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            }
+        }
+        getByName("commonTest") {
+            dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting {
+        getByName("androidMain") {
             dependencies {
-                dependsOn(commonMain)
-                implementation("androidx.compose.ui:ui:1.5.2")
-                implementation("androidx.compose.ui:ui-test-junit4:1.5.2")
-                implementation("androidx.compose.material:material:1.5.2")
+                implementation("androidx.compose.ui:ui:1.5.4")
+                implementation("androidx.compose.ui:ui-test-junit4:1.5.4")
+                implementation("androidx.compose.material:material:1.5.4")
 
             }
         }
-        val androidInstrumentedTest by getting {
+        getByName("androidInstrumentedTest") {
             dependencies {
-                implementation("androidx.compose.ui:ui-test-manifest:1.5.2")
+                implementation("androidx.compose.ui:ui-test-manifest:1.5.4")
             }
-        }
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }
@@ -89,7 +81,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
 
     compileOptions {

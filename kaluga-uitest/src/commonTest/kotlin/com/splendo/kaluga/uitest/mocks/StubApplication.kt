@@ -5,6 +5,7 @@ import com.splendo.kaluga.uitest.AssertionResult
 import com.splendo.kaluga.uitest.BaseApplicationAdapter
 import com.splendo.kaluga.uitest.Node
 import com.splendo.kaluga.uitest.TimeoutDuration
+import com.splendo.kaluga.uitest.ViewType
 
 class StubApplication : BaseApplicationAdapter() {
 
@@ -19,7 +20,7 @@ class StubApplication : BaseApplicationAdapter() {
     var findViewWithTagCalled = 0
     var findViewWithTagCalledWith: String? = null
     var nodeWithTagToReturn: Node? = null
-    override fun findViewByTag(tag: String): Node {
+    override fun findViewByTag(tag: String, viewType: ViewType): Node {
         findViewWithTagCalled++
         findViewWithTagCalledWith = tag
         return nodeWithTagToReturn ?: throw IllegalStateException(
@@ -30,7 +31,7 @@ class StubApplication : BaseApplicationAdapter() {
     var findViewWithTextCalled = 0
     var findViewWithTextCalledWith: String? = null
     var nodeWithTextToReturn: Node? = null
-    override fun findViewByText(text: String): Node {
+    override fun findViewByText(text: String, viewType: ViewType): Node {
         findViewWithTextCalled++
         findViewWithTextCalledWith = text
         return nodeWithTextToReturn ?: throw IllegalStateException(
