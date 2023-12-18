@@ -71,7 +71,7 @@ android {
     namespace = "com.splendo.kaluga.uitest"
     compileSdk = 34
     defaultConfig {
-        minSdk = 29
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
