@@ -1,14 +1,9 @@
 package com.splendo.kaluga.uitest
 
 import kotlin.time.DurationUnit
-import platform.Foundation.NSPredicate
-import platform.XCTest.XCTWaiter
-import platform.XCTest.XCTWaiterResultCompleted
-import platform.XCTest.XCTestCase
 import platform.XCTest.XCUIApplication
 import platform.XCTest.XCUIElement
 import platform.XCTest.XCUIElementTypeAny
-import platform.XCTest.expectationForPredicate
 import platform.XCTest.swipeDown
 import platform.XCTest.swipeDownWithVelocity
 import platform.XCTest.swipeUp
@@ -21,21 +16,7 @@ actual class DefaultNode(
     private val element: XCUIElement
 ) : Node {
 
-    override fun exists(): AssertionResult {
-        val predicate = NSPredicate.predicateWithFormat("exists == true")
-        val expectation = XCTestCase().expectationForPredicate(
-            predicate = predicate,
-            evaluatedWithObject = element,
-            handler = null
-        )
-
-        val result = XCTWaiter().waitForExpectations(
-            expectations = listOf(expectation),
-            timeout = TimeoutDuration.SHORT.duration.toDouble(DurationUnit.SECONDS)
-        )
-
-        return assertionResultFor { result == XCTWaiterResultCompleted }
-    }
+    override fun exists(): AssertionResult = assertionResultFor { element.exists() }
 
     override fun waitExists(timeout: TimeoutDuration): AssertionResult = assertionResultFor {
         element.waitForExistenceWithTimeout(
@@ -130,8 +111,8 @@ actual class DefaultNode(
     }
 
     private fun listItemAt(index: Int) = element
-            .descendantsMatchingType(XCUIElementTypeAny)
-            .elementAtIndex(index.toULong())
+        .descendantsMatchingType(XCUIElementTypeAny)
+        .elementAtIndex(index.toULong())
 
     private fun listItemWithTag(tag: String) = element
         .descendantsMatchingType(XCUIElementTypeAny)
@@ -139,7 +120,8 @@ actual class DefaultNode(
 }
 
 actual typealias AssertionBlockReturnType = Boolean
-actual fun  DefaultNode.assertionResultFor(
+
+actual fun DefaultNode.assertionResultFor(
     assertionBlock: () -> AssertionBlockReturnType
 ): AssertionResult = if (assertionBlock()) {
     AssertionResult.Success()
