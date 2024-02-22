@@ -1,8 +1,6 @@
 package com.splendo.kaluga.uitest
 
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 class AppLaunchedAlreadyException : Throwable() {
     override val message: String = "The app is already launched"
@@ -10,19 +8,6 @@ class AppLaunchedAlreadyException : Throwable() {
 
 class AppNotLaunchedYetException : Throwable() {
     override val message: String = "The app was not launched"
-}
-
-enum class TimeoutDuration(val duration: Duration) {
-    SHORT(10.seconds),
-    MEDIUM(30.seconds),
-    LONG(60.seconds)
-}
-
-sealed class SwipeDuration(val duration: Duration) {
-    object Short : SwipeDuration(50.milliseconds)
-    object Medium : SwipeDuration(100.milliseconds)
-    object Long : SwipeDuration(200.milliseconds)
-    class Custom(duration: Duration) : SwipeDuration(duration)
 }
 
 typealias ApplicationArguments = Map<String, String>
@@ -67,8 +52,11 @@ interface ApplicationAdapter {
     fun tearDown()
 
     fun assert(assertionResult: AssertionResult)
-    fun assertUntil(timeout: TimeoutDuration, blockAssertionResult: () -> AssertionResult)
+    fun assertFails(assertionResult: AssertionResult)
+    fun assertUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult)
+    fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult)
     fun assertAll(assertions: List<AssertionResult>)
+    fun assertFailsAll(assertions: List<AssertionResult>)
 
     interface TearDownHandler {
         fun tearDown()
@@ -105,3 +93,9 @@ abstract class BaseApplicationAdapter : ApplicationAdapter {
 }
 
 expect class DefaultApplicationAdapter: BaseApplicationAdapter
+
+fun ApplicationAdapter.assertAll(vararg assertions: AssertionResult) =
+    assertAll(assertions.toList())
+
+fun ApplicationAdapter.assertFailsAll(vararg assertions: AssertionResult) =
+    assertFailsAll(assertions.toList())

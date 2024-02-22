@@ -1,11 +1,16 @@
 package com.splendo.kaluga.uitest
 
+import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import platform.XCTest.XCUIApplication
 import platform.XCTest.XCUIElement
 import platform.XCTest.XCUIElementTypeAny
+import platform.XCTest.doubleTap
+import platform.XCTest.pressForDuration
 import platform.XCTest.swipeDown
 import platform.XCTest.swipeDownWithVelocity
+import platform.XCTest.swipeLeft
+import platform.XCTest.swipeRight
 import platform.XCTest.swipeUp
 import platform.XCTest.swipeUpWithVelocity
 import platform.XCTest.tap
@@ -18,13 +23,17 @@ actual class DefaultNode(
 
     override fun exists(): AssertionResult = assertionResultFor { element.exists() }
 
-    override fun waitExists(timeout: TimeoutDuration): AssertionResult = assertionResultFor {
+    override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor {
         element.waitForExistenceWithTimeout(
-            timeout.duration.toDouble(DurationUnit.SECONDS)
+            timeout.toDouble(DurationUnit.SECONDS)
         )
     }
 
-    override fun isVisible(): AssertionResult = waitExists(TimeoutDuration.SHORT)
+    override fun isVisible(): AssertionResult = exists()
+
+    override fun isNotVisible(): AssertionResult = assertionResultFor {
+        !element.exists()
+    }
 
     override fun isButton(): AssertionResult = assertionResultFor(element::isHittable)
 
@@ -60,8 +69,8 @@ actual class DefaultNode(
         element.swipeUp()
     }
 
-    override fun swipeUp(swipeDuration: SwipeDuration) {
-        element.swipeUpWithVelocity(swipeDuration.duration.toDouble(DurationUnit.MILLISECONDS))
+    override fun swipeUp(swipeDuration: Duration) {
+        element.swipeUpWithVelocity(swipeDuration.toDouble(DurationUnit.MILLISECONDS))
     }
 
     override fun swipeUp(startY: Float, endY: Float) {
@@ -85,11 +94,27 @@ actual class DefaultNode(
         element.swipeDown()
     }
 
-    override fun swipeDown(swipeDuration: SwipeDuration) {
-        element.swipeDownWithVelocity(swipeDuration.duration.toDouble(DurationUnit.MILLISECONDS))
+    override fun swipeDown(swipeDuration: Duration) {
+        element.swipeDownWithVelocity(swipeDuration.toDouble(DurationUnit.MILLISECONDS))
     }
 
     override fun swipeDown(startY: Float, endY: Float) {
+        TODO("Unstable API, needs more investigation")
+    }
+
+    override fun swipeLeft() {
+        element.swipeLeft()
+    }
+
+    override fun swipeLeft(startX: Float, endX: Float) {
+        TODO("Unstable API, needs more investigation")
+    }
+
+    override fun swipeRight() {
+        element.swipeRight()
+    }
+
+    override fun swipeRight(startX: Float, endX: Float) {
         TODO("Unstable API, needs more investigation")
     }
 
@@ -102,6 +127,14 @@ actual class DefaultNode(
 
     override fun tap() {
         element.tap()
+    }
+
+    override fun doubleTap() {
+        element.doubleTap()
+    }
+
+    override fun press(duration: Duration) {
+        element.pressForDuration(duration.toDouble(DurationUnit.SECONDS))
     }
 
     private fun isTextEqualOrContains(value: String, contains: Boolean): Boolean = if (contains) {

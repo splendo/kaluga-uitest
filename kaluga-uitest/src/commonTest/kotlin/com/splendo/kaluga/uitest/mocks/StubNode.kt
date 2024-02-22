@@ -2,8 +2,7 @@ package com.splendo.kaluga.uitest.mocks
 
 import com.splendo.kaluga.uitest.AssertionResult
 import com.splendo.kaluga.uitest.Node
-import com.splendo.kaluga.uitest.SwipeDuration
-import com.splendo.kaluga.uitest.TimeoutDuration
+import kotlin.time.Duration
 
 class StubNode : Node {
 
@@ -19,6 +18,18 @@ class StubNode : Node {
         tapCalled++
     }
 
+    var doubleTapCalled = 0
+    override fun doubleTap() {
+        doubleTapCalled++
+    }
+
+    var pressCalled = 0
+    var pressCalledWith: Duration? = null
+    override fun press(duration: Duration) {
+        pressCalled++
+        pressCalledWith = duration
+    }
+
     var existsCalled = 0
     var existsReturn: AssertionResult? = null
     override fun exists(): AssertionResult {
@@ -27,9 +38,9 @@ class StubNode : Node {
     }
 
     var waitExistsCalled = 0
-    var waitExistsCalledWith: TimeoutDuration? = null
+    var waitExistsCalledWith: Duration? = null
     var waitExistsReturn: AssertionResult? = null
-    override fun waitExists(timeout: TimeoutDuration): AssertionResult {
+    override fun waitExists(timeout: Duration): AssertionResult {
         waitExistsCalled++
         waitExistsCalledWith = timeout
         return waitExistsReturn ?: throw IllegalStateException("Must set waitExistsReturn first")
@@ -40,6 +51,13 @@ class StubNode : Node {
     override fun isVisible(): AssertionResult {
         isVisibleCalled++
         return isVisibleReturn ?: throw IllegalStateException("Must set isVisibleReturn first")
+    }
+
+    var isNotVisibleCalled = 0
+    var isNotVisibleReturn: AssertionResult? = null
+    override fun isNotVisible(): AssertionResult {
+        isNotVisibleCalled++
+        return isNotVisibleReturn ?: throw IllegalStateException("Must set isButtonReturn first")
     }
 
     var isButtonCalled = 0
@@ -73,8 +91,8 @@ class StubNode : Node {
     }
 
     var swipeUpWithDurationCalled = 0
-    var swipeUpWithDurationCalledWith: SwipeDuration? = null
-    override fun swipeUp(swipeDuration: SwipeDuration) {
+    var swipeUpWithDurationCalledWith: Duration? = null
+    override fun swipeUp(swipeDuration: Duration) {
         swipeUpWithDurationCalled++
         swipeUpWithDurationCalledWith = swipeDuration
     }
@@ -92,8 +110,8 @@ class StubNode : Node {
     }
 
     var swipeDownWithDurationCalled = 0
-    var swipeDownWithDurationCalledWith: SwipeDuration? = null
-    override fun swipeDown(swipeDuration: SwipeDuration) {
+    var swipeDownWithDurationCalledWith: Duration? = null
+    override fun swipeDown(swipeDuration: Duration) {
         swipeDownWithDurationCalled++
         swipeDownWithDurationCalledWith = swipeDuration
     }
@@ -103,6 +121,30 @@ class StubNode : Node {
     override fun swipeDown(startY: Float, endY: Float) {
         swipeDownWithCoordsCalled++
         swipeDownWithCoordsCalledWith = Pair(startY, endY)
+    }
+
+    var swipeLeftCalled = 0
+    override fun swipeLeft() {
+       swipeLeftCalled++
+    }
+
+    var swipeLeftWithCoordsCalled = 0
+    var swipeLeftWithCoordsCalledWith: Pair<Float, Float>? = null
+    override fun swipeLeft(startX: Float, endX: Float) {
+        swipeLeftWithCoordsCalled++
+        swipeLeftWithCoordsCalledWith = startX to endX
+    }
+
+    var swipeRightCalled = 0
+    override fun swipeRight() {
+        swipeRightCalled++
+    }
+
+    var swipeRightWithCoordsCalled = 0
+    var swipeRightWithCoordsCalledWith: Pair<Float, Float>? = null
+    override fun swipeRight(startX: Float, endX: Float) {
+        swipeRightWithCoordsCalled++
+        swipeRightWithCoordsCalledWith = startX to endX
     }
 
     var swipeUntilIndexCalled = 0

@@ -1,5 +1,6 @@
 package com.splendo.kaluga.uitest
 
+import kotlin.time.Duration
 import platform.Foundation.NSPredicate
 import platform.XCTest.XCUIApplication
 import platform.XCTest.XCUIElementQuery
@@ -49,7 +50,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
      * Not called from iOS
      */
     override fun assertUntil(
-        timeout: TimeoutDuration,
+        timeout: Duration,
         blockAssertionResult: () -> AssertionResult
     ) = assert(blockAssertionResult())
 

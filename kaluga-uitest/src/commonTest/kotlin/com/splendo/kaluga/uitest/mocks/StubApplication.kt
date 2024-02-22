@@ -4,7 +4,8 @@ import com.splendo.kaluga.uitest.ApplicationArguments
 import com.splendo.kaluga.uitest.AssertionResult
 import com.splendo.kaluga.uitest.BaseApplicationAdapter
 import com.splendo.kaluga.uitest.Node
-import com.splendo.kaluga.uitest.TimeoutDuration
+import com.splendo.kaluga.uitest.ViewType
+import kotlin.time.Duration
 
 class StubApplication : BaseApplicationAdapter() {
 
@@ -19,7 +20,7 @@ class StubApplication : BaseApplicationAdapter() {
     var findViewWithTagCalled = 0
     var findViewWithTagCalledWith: String? = null
     var nodeWithTagToReturn: Node? = null
-    override fun findViewByTag(tag: String): Node {
+    override fun findViewByTag(tag: String, viewType: ViewType): Node {
         findViewWithTagCalled++
         findViewWithTagCalledWith = tag
         return nodeWithTagToReturn ?: throw IllegalStateException(
@@ -30,7 +31,7 @@ class StubApplication : BaseApplicationAdapter() {
     var findViewWithTextCalled = 0
     var findViewWithTextCalledWith: String? = null
     var nodeWithTextToReturn: Node? = null
-    override fun findViewByText(text: String): Node {
+    override fun findViewByText(text: String, viewType: ViewType): Node {
         findViewWithTextCalled++
         findViewWithTextCalledWith = text
         return nodeWithTextToReturn ?: throw IllegalStateException(
@@ -45,23 +46,49 @@ class StubApplication : BaseApplicationAdapter() {
         assertCalledWith = assertionResult
     }
 
+    var assertFailsCalled = 0
+    var assertFailsCalledWith: AssertionResult? = null
+    override fun assertFails(assertionResult: AssertionResult) {
+        assertFailsCalled++
+        assertFailsCalledWith = assertionResult
+    }
+
     var assertUntilCalled = 0
     override fun assertUntil(
-        timeout: TimeoutDuration,
+        timeout: Duration,
         blockAssertionResult: () -> AssertionResult
     ) {
         assertUntilCalled++
     }
 
+    var assertFailsUntilCalled = 0
+    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
+        assertFailsUntilCalled++
+    }
+
     var assertAllCalled = 0
     var assertAllRunTimes = 0
     private val _assertAllResult = mutableListOf<AssertionResult>()
-    val assertAllResult = _assertAllResult.toList()
+    val assertAllResult
+        get() = _assertAllResult.toList()
     override fun assertAll(assertions: List<AssertionResult>) {
         assertAllCalled++
         assertions.forEach {
             assertAllRunTimes++
             _assertAllResult.add(it)
+        }
+    }
+
+    var assertFailsAllCalled = 0
+    var assertFailsAllRunTimes = 0
+    private val _assertFailsAllResult = mutableListOf<AssertionResult>()
+    val assertFailsAllResult
+        get() = _assertFailsAllResult.toList()
+    override fun assertFailsAll(assertions: List<AssertionResult>) {
+        assertFailsAllCalled++
+        assertions.forEach {
+            assertFailsAllRunTimes++
+            _assertFailsAllResult.add(it)
         }
     }
 
