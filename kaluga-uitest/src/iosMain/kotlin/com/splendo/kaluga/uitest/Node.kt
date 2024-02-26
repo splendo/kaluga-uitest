@@ -25,7 +25,7 @@ actual class DefaultNode(
 
     override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor {
         element.waitForExistenceWithTimeout(
-            timeout.toDouble(DurationUnit.SECONDS)
+            timeout.nsTimeInterval
         )
     }
 
@@ -134,7 +134,7 @@ actual class DefaultNode(
     }
 
     override fun press(duration: Duration) {
-        element.pressForDuration(duration.toDouble(DurationUnit.SECONDS))
+        element.pressForDuration(duration.nsTimeInterval)
     }
 
     private fun isTextEqualOrContains(value: String, contains: Boolean): Boolean = if (contains) {

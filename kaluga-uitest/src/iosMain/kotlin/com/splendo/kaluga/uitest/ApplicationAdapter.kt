@@ -2,6 +2,8 @@ package com.splendo.kaluga.uitest
 
 import kotlin.time.Duration
 import platform.Foundation.NSPredicate
+import platform.XCTest.XCTWaiter
+import platform.XCTest.XCTestExpectation
 import platform.XCTest.XCUIApplication
 import platform.XCTest.XCUIElementQuery
 import platform.XCTest.XCUIElementTypeAny
@@ -49,6 +51,16 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     /**
      * Not called from iOS
      */
+    override fun assertFails(assertionResult: AssertionResult) {
+        when (assertionResult) {
+            is AssertionResult.Success -> error("Test was supposed to fail")
+            is AssertionResult.Failure -> Unit
+        }
+    }
+
+    /**
+     * Not called from iOS
+     */
     override fun assertUntil(
         timeout: Duration,
         blockAssertionResult: () -> AssertionResult
@@ -57,8 +69,26 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     /**
      * Not called from iOS
      */
+    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
+        XCTWaiter.waitForExpectations(
+            listOf(
+                XCTestExpectation("")
+            ),
+            timeout = timeout.nsTimeInterval
+        )
+        assertFails(blockAssertionResult())
+    }
+
+    /**
+     * Not called from iOS
+     */
     override fun assertAll(assertions: List<AssertionResult>) = assert(assertions.first())
-    
+    override fun assertFailsAll(assertions: List<AssertionResult>) {
+        assertions.all {
+            it is AssertionResult.Failure
+        }
+    }
+
     private fun findDescendantsMatchingType(viewType: ViewType): XCUIElementQuery = app
         .descendantsMatchingType(
             when (viewType) {
