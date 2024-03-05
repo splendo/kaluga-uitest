@@ -25,10 +25,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
 import androidx.compose.ui.unit.dp
-import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.TimeSource
-import org.junit.Ignore
 import org.junit.Test
 
 class NodeTest : BaseAndroidKalugaUITest() {
@@ -240,7 +238,6 @@ class NodeTest : BaseAndroidKalugaUITest() {
     }
 
     @Test
-    @Ignore("API seems to be unstable on CI")
     fun test_swiping_slider_sets_correct_value() = runOnApplicationAdapter {
         testRule.setContent {
             var value by remember { mutableStateOf(0f) }
@@ -283,14 +280,23 @@ class NodeTest : BaseAndroidKalugaUITest() {
     }
 
     @Test
-    @Ignore("API is unstable")
     fun test_long_tapping_button_sets_correct_value() = runOnApplicationAdapter {
+
         testRule.setContent {
-            val timeSource = remember { TimeSource.Monotonic }
-            var timer by remember { mutableStateOf<TimeSource.Monotonic.ValueTimeMark?>(null) }
             val interactionSource = remember { MutableInteractionSource() }
             var timerValue by remember { mutableDoubleStateOf(0.0) }
 
+
+            LaunchedEffect(interactionSource) {
+                interactionSource.interactions.collect {
+                    when (it) {
+                        is PressInteraction.Release -> {
+                            timerValue = testRule.mainClock.currentTime.milliseconds.inWholeSeconds.toDouble()
+                        }
+                        else -> Unit
+                    }
+                }
+            }
             Column {
                 Button(
                     { },
@@ -302,34 +308,19 @@ class NodeTest : BaseAndroidKalugaUITest() {
 
                 Text("Counter: $timerValue", modifier = Modifier.testTag("counterText"))
             }
-            LaunchedEffect(interactionSource) {
-                interactionSource.interactions.collect {
-                    when (it) {
-                        is PressInteraction.Press -> {
-                            timer = timeSource.markNow()
-                        }
-                        is PressInteraction.Release -> {
-                            val value = timer?.elapsedNow()?.inWholeSeconds?.toDouble()
-                            timerValue = value ?: 0.0
-                        }
-                        else -> Unit
-                    }
-                }
-            }
         }
 
         val button = findViewByTag("testButton")
         val counterText = findViewByTag("counterText")
         assert(counterText.isTextEqualTo("Counter: 0.0", contains = false))
 
+        testRule.mainClock.autoAdvance = false
         button.press(1.seconds)
         testRule.mainClock.advanceTimeByFrame()
-        testRule.mainClock.advanceTimeBy(1500)
-        testRule.waitForIdle()
+        testRule.mainClock.autoAdvance = true
 
         assertUntil(10.seconds) {
             counterText.isTextEqualTo("Counter: 1.0", contains = false)
         }
-
     }
 }
