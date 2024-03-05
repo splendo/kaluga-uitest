@@ -1,5 +1,7 @@
 package com.splendo.kaluga.uitest
 
+import kotlin.time.Duration
+
 /**
  * Used on consumer side in order to create a `allCases` property so that cases can be looped.
  */
@@ -26,14 +28,26 @@ class EmptyApplicationAdapter : ApplicationAdapter {
         throw IllegalStateException("This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter")
     }
 
+    override fun assertFails(assertionResult: AssertionResult) {
+        throw IllegalStateException("This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter")
+    }
+
     override fun assertUntil(
-        timeout: TimeoutDuration,
+        timeout: Duration,
         blockAssertionResult: () -> AssertionResult
     ) {
         throw IllegalStateException("This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter")
     }
 
+    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
+        throw IllegalStateException("This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter")
+    }
+
     override fun assertAll(assertions: List<AssertionResult>) {
+        throw IllegalStateException("This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter")
+    }
+
+    override fun assertFailsAll(assertions: List<AssertionResult>) {
         throw IllegalStateException("This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter")
     }
 
