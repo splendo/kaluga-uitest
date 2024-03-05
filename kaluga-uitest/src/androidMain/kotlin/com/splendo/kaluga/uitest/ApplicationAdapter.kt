@@ -1,27 +1,24 @@
 package com.splendo.kaluga.uitest
 
 import android.content.Intent
-import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
-import kotlin.test.assertTrue
 import kotlin.time.Duration
-import kotlin.time.DurationUnit
 
 actual class DefaultApplicationAdapter(
     testRule: ComposeTestRule? = null
 ) : BaseApplicationAdapter() {
     private val testRule = testRule ?: createComposeRule()
 
-    override fun launch(activityName: String?, arguments: Map<String, String>) {
-        super.launch(activityName, arguments)
+    override fun launch(identifier: String?, arguments: Map<String, String>) {
+        super.launch(identifier, arguments)
 
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val appPackage = instrumentation.targetContext.packageName
-        val fullIdentifier = "$appPackage.$activityName"
+        val fullIdentifier = "$appPackage.$identifier"
         val intent = Intent(Intent.ACTION_MAIN)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.setClassName(instrumentation.targetContext, fullIdentifier)
