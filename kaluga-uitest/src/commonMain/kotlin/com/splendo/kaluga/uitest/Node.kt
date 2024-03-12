@@ -1,13 +1,34 @@
 package com.splendo.kaluga.uitest
 
+import kotlin.time.Duration
+
 sealed class AssertionResult {
     class Success : AssertionResult()
     class Failure(val exception: AssertionError) : AssertionResult()
 }
 
 interface Node {
+    /**
+     * Types the given [text] on a [Node]. This action will work only on editable elements such as
+     * textfield.
+     */
     fun typeText(text: String)
+
+    /**
+     * Performs a single tap on a [Node].
+     */
     fun tap()
+
+    /**
+     * Performs a double tap on a [Node].
+     */
+    fun doubleTap()
+
+    /**
+     * Tap and hold a [Node] for [duration].
+     * @param duration time that the [Node] will be pressed.
+     */
+    fun press(duration: Duration)
 
     /**
      * If the [Node] exists at the moment of the call, it returns [AssertionResult.Success].
@@ -20,15 +41,20 @@ interface Node {
      * Returns an [AssertionResult.Failure] if the [Node] is not found or [AssertionResult.Success] instead.
      * @param timeout Duration in seconds for the [Node] to appear in the view
      */
-    fun waitExists(timeout: TimeoutDuration): AssertionResult
+    fun waitExists(timeout: Duration): AssertionResult
 
     /**
      * Returns [AssertionResult.Success] when the [Node] exists and is visible on the view.
      * If the [Node] exists, but is not visible because is hidden by other views,
-     * it returns [AssertionResult.Failure]. Also if an [Node] exists in a ScrollView and when the
-     * method is called that [Node] is not visible, it will return [AssertionResult.Failure].
+     * it returns [AssertionResult.Failure]. Also, when the
+     * method is called and that [Node] exists in a ScrollView, then it won't be visible and it will return [AssertionResult.Failure].
      */
     fun isVisible(): AssertionResult
+
+    /**
+     * Returns [AssertionResult.Success] when the [Node] does not exists or is not visible on the view.
+     */
+    fun isNotVisible(): AssertionResult
 
     /**
      * Returns [AssertionResult.Success] if the node is a button and possesses a click property.
@@ -59,7 +85,7 @@ interface Node {
      * Does a swipeUp action for a given [SwipeDuration] duration.
      * @param swipeDuration The duration of the swipe.
      */
-    fun swipeUp(swipeDuration: SwipeDuration)
+    fun swipeUp(swipeDuration: Duration)
 
     /**
      * Does a swipeUp action from [startY] to [endY] coordinates on the view.
@@ -77,7 +103,7 @@ interface Node {
      * Does a swipeDown action for a given [SwipeDuration] duration.
      * @param swipeDuration The duration of the swipe.
      */
-    fun swipeDown(swipeDuration: SwipeDuration)
+    fun swipeDown(swipeDuration: Duration)
 
     /**
      * Does a swipeDown action from [startY] to [endY] coordinates on the view.
@@ -86,6 +112,29 @@ interface Node {
      */
     fun swipeDown(startY: Float, endY: Float)
 
+    /**
+     * Does a swipeLeft action on an element.
+     */
+    fun swipeLeft()
+
+    /**
+     * Does a swipeLeft action from [startX] to [endX] coordinates on the view.
+     * @param startX Start coordinate is greater than [endX]
+     * @param endX End coordinate is smaller than [startX]
+     */
+    fun swipeLeft(startX: Float, endX: Float)
+
+    /**
+     * Does a swipeRight action on an element.
+     */
+    fun swipeRight()
+
+    /**
+     * Does a swipeRight action from [startX] to [endX] coordinates on the view.
+     * @param startX Start coordinate is smaller than [endX]
+     * @param endX End coordinate is greater than [startX]
+     */
+    fun swipeRight(startX: Float, endX: Float)
 
     /**
      * Swipe the [Node] until the View with the given index is visible.
@@ -100,9 +149,6 @@ interface Node {
      * @param velocity Speed of the swiping action
      */
     fun swipeUntilKey(key: Any, velocity: Float? = null)
-
-//    fun doubleTap()
-//    fun press()
 }
 
 expect class DefaultNode : Node

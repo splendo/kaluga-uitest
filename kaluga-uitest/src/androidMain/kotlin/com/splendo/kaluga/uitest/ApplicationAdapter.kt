@@ -1,15 +1,15 @@
 package com.splendo.kaluga.uitest
 
 import android.content.Intent
-import androidx.compose.ui.test.junit4.ComposeContentTestRule
+import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
-import kotlin.time.DurationUnit
+import kotlin.time.Duration
 
 actual class DefaultApplicationAdapter(
-    testRule: ComposeContentTestRule? = null
+    testRule: ComposeTestRule? = null
 ) : BaseApplicationAdapter() {
     private val testRule = testRule ?: createComposeRule()
 
@@ -18,14 +18,12 @@ actual class DefaultApplicationAdapter(
 
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val appPackage = instrumentation.targetContext.packageName
-        val activityName = "$appPackage.$identifier"
+        val fullIdentifier = "$appPackage.$identifier"
         val intent = Intent(Intent.ACTION_MAIN)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.setClassName(instrumentation.targetContext, activityName)
+        intent.setClassName(instrumentation.targetContext, fullIdentifier)
 
-        arguments.forEach {
-            intent.putExtra(it.key, it.value)
-        }
+        arguments.forEach { this[it.key] = it.value }
 
         instrumentation.startActivitySync(intent)
     }
@@ -47,18 +45,44 @@ actual class DefaultApplicationAdapter(
         }
     }
 
+    override fun assertFails(assertionResult: AssertionResult) = when (assertionResult) {
+        is AssertionResult.Failure -> Unit
+        is AssertionResult.Success -> Unit
+    }
+
     override fun assertUntil(
-        timeout: TimeoutDuration,
+        timeout: Duration,
         blockAssertionResult: () -> AssertionResult
     ) {
-        testRule.waitUntil(timeout.duration.toLong(DurationUnit.MILLISECONDS)) {
-           blockAssertionResult() is AssertionResult.Success
+        testRule.waitUntil(timeout.inWholeMilliseconds) {
+            val result = blockAssertionResult()
+            if (result is AssertionResult.Failure)
+                throw result.exception
+            result is AssertionResult.Success
+        }
+    }
+
+    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
+        testRule.waitUntil(timeout.inWholeMilliseconds) {
+            blockAssertionResult() is AssertionResult.Failure
         }
     }
 
     override fun assertAll(assertions: List<AssertionResult>) {
-        assertions.forEach {
-            it is AssertionResult.Success
+        testRule.waitUntil {
+            assertions.all {
+                if (it is AssertionResult.Failure)
+                    throw it.exception
+                it is AssertionResult.Success
+            }
+        }
+    }
+
+    override fun assertFailsAll(assertions: List<AssertionResult>) {
+        testRule.waitUntil {
+            assertions.all {
+                it is AssertionResult.Failure
+            }
         }
     }
 }
