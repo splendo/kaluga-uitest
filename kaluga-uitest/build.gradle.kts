@@ -43,7 +43,7 @@ kotlin {
         getByName("commonMain") {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
             }
         }
         getByName("commonTest") {
@@ -53,15 +53,15 @@ kotlin {
         }
         getByName("androidMain") {
             dependencies {
-                implementation("androidx.compose.ui:ui:1.5.4")
-                implementation("androidx.compose.ui:ui-test-junit4:1.5.4")
-                implementation("androidx.compose.material:material:1.5.4")
+                implementation("androidx.compose.ui:ui:1.6.7")
+                implementation("androidx.compose.ui:ui-test-junit4:1.6.7")
+                implementation("androidx.compose.material:material:1.6.7")
 
             }
         }
         getByName("androidInstrumentedTest") {
             dependencies {
-                implementation("androidx.compose.ui:ui-test-manifest:1.5.4")
+                implementation("androidx.compose.ui:ui-test-manifest:1.6.7")
             }
         }
     }
@@ -81,7 +81,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.7"
+        kotlinCompilerExtensionVersion = "1.5.13"
     }
 
     compileOptions {
