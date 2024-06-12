@@ -149,6 +149,18 @@ interface Node {
      * @param velocity Speed of the swiping action
      */
     fun swipeUntilKey(key: Any, velocity: Float? = null)
+    
+    /**
+     * Returns [AssertionResult.Success] if the [Node] is enabled.
+     * Otherwise it returns [AssertionResult.Failure].
+     */
+    fun isEnabled(): AssertionResult
+    
+    /**
+     * Returns [AssertionResult.Success] if the [Node] is selected.
+     * Otherwise it returns [AssertionResult.Failure].
+     */
+    fun isSelected(): AssertionResult
 }
 
 expect class DefaultNode : Node

@@ -160,4 +160,12 @@ class StubNode : Node {
         swipeUntilKeyCalledTimes++
         swipeUntilKeyCalledWith = Pair(key, velocity)
     }
+    
+    override fun isEnabled(): AssertionResult {
+        TODO("Not yet implemented")
+    }
+    
+    override fun isSelected(): AssertionResult {
+        TODO("Not yet implemented")
+    }
 }

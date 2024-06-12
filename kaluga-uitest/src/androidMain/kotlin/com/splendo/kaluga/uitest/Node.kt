@@ -130,6 +130,14 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
             swipeRight(startX = startX, endX = endX)
         }
     }
+    
+    override fun isEnabled(): AssertionResult {
+        TODO("Not yet implemented")
+    }
+    
+    override fun isSelected(): AssertionResult {
+        TODO("Not yet implemented")
+    }
 }
 
 actual typealias AssertionBlockReturnType = SemanticsNodeInteraction
