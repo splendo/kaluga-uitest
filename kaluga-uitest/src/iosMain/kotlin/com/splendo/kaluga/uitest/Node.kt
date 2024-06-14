@@ -136,15 +136,23 @@ actual class DefaultNode(
     override fun press(duration: Duration) {
         element.pressForDuration(duration.nsTimeInterval)
     }
-    
+
     override fun isEnabled(): AssertionResult = assertionResultFor {
         element.isEnabled()
     }
-    
+
+    override fun isNotEnabled(): AssertionResult = assertionResultFor {
+        !element.isEnabled()
+    }
+
     override fun isSelected(): AssertionResult = assertionResultFor {
         element.isSelected()
     }
-    
+
+    override fun isNotSelected(): AssertionResult = assertionResultFor {
+        !element.isSelected()
+    }
+
     private fun isTextEqualOrContains(value: String, contains: Boolean): Boolean = if (contains) {
         (element.value as? String)?.contains(value) == true
     } else {
