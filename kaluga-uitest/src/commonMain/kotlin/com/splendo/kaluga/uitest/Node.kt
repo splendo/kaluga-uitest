@@ -155,12 +155,24 @@ interface Node {
      * Otherwise it returns [AssertionResult.Failure].
      */
     fun isEnabled(): AssertionResult
-    
+
+    /**
+     * Returns [AssertionResult.Success] if the [Node] is not enabled.
+     * Otherwise it returns [AssertionResult.Failure].
+     */
+    fun isNotEnabled(): AssertionResult
+
     /**
      * Returns [AssertionResult.Success] if the [Node] is selected.
      * Otherwise it returns [AssertionResult.Failure].
      */
     fun isSelected(): AssertionResult
+
+    /**
+     * Returns [AssertionResult.Success] if the [Node] is not selected.
+     * Otherwise it returns [AssertionResult.Failure].
+     */
+    fun isNotSelected(): AssertionResult
 }
 
 expect class DefaultNode : Node
