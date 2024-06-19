@@ -8,6 +8,7 @@ import platform.XCTest.XCUIApplication
 import platform.XCTest.XCUIElementQuery
 import platform.XCTest.XCUIElementTypeAny
 import platform.XCTest.XCUIElementTypeButton
+import platform.XCTest.XCUIElementTypeGroup
 import platform.XCTest.XCUIElementTypeImage
 import platform.XCTest.XCUIElementTypeSecureTextField
 import platform.XCTest.XCUIElementTypeStaticText
@@ -101,6 +102,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
                     is ViewType.Text.StaticText -> XCUIElementTypeStaticText
                 }
                 is ViewType.TextField -> XCUIElementTypeTextField
+                is ViewType.Group -> XCUIElementTypeGroup
             }
         )
 }
