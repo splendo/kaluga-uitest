@@ -1,22 +1,23 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     `maven-publish`
-    kotlin("multiplatform")
-    id("com.android.library")
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlinter)
 }
 
-
 kotlin {
-    targets.configureEach {
-        compilations.configureEach {
-            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+    project.tasks.withType(KotlinCompile::class) {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(libs.versions.java.get()))
+            freeCompilerArgs.add("-Xexpect-actual-classes")
         }
     }
+
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
-        }
         publishLibraryVariants("release", "debug")
     }
 
@@ -43,7 +44,7 @@ kotlin {
         getByName("commonMain") {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
         getByName("commonTest") {
@@ -53,15 +54,15 @@ kotlin {
         }
         getByName("androidMain") {
             dependencies {
-                implementation("androidx.compose.ui:ui:1.6.7")
-                implementation("androidx.compose.ui:ui-test-junit4:1.6.7")
-                implementation("androidx.compose.material:material:1.6.7")
+                implementation(libs.compose.ui)
+                implementation(libs.compose.uiTestJunit4)
+                implementation(libs.compose.material)
 
             }
         }
         getByName("androidInstrumentedTest") {
             dependencies {
-                implementation("androidx.compose.ui:ui-test-manifest:1.6.7")
+                implementation(libs.compose.uiTestManifest)
             }
         }
     }
@@ -69,24 +70,15 @@ kotlin {
 
 android {
     namespace = "com.splendo.kaluga.uitest"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
-        minSdk = 24
-
+        minSdk = libs.versions.androidMinSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
-    }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        val javaVersion = JavaVersion.toVersion(libs.versions.java.get())
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
 }
 

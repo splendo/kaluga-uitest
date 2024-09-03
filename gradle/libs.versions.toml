@@ -1,0 +1,25 @@
+[versions]
+androidGradle = "8.5.2"
+androidBuildTools = "34.0.0"
+androidCompileSdk = "34"
+androidMinSdk = "24"
+kotlin = "2.0.20"
+kotlinter = "4.4.1"
+java = "17"
+kotlinxCoroutinesCore = "1.9.0-RC.2"
+material = "1.6.8"
+composeUITest = "1.6.8"
+
+[libraries]
+compose-material = { module = "androidx.compose.material:material", version.ref = "material" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "composeUITest" }
+compose-uiTestJunit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeUITest" }
+compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeUITest" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+
+[plugins]
+android-library = { id = "com.android.library", version.ref = "androidGradle" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
