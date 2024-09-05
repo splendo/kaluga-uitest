@@ -18,24 +18,28 @@ import androidx.compose.ui.test.swipeRight
 import androidx.compose.ui.test.swipeUp
 import kotlin.time.Duration
 
-actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
+actual class DefaultNode(
+    internal val node: SemanticsNodeInteraction,
+) : Node {
     override fun exists(): AssertionResult = assertionResultFor(node::assertExists)
 
-    override fun waitExists(timeout: Duration): AssertionResult =
-        assertionResultFor(node:: assertExists)
+    override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor(node::assertExists)
 
     override fun isVisible(): AssertionResult = assertionResultFor(node::assertIsDisplayed)
 
-    override fun isNotVisible(): AssertionResult =
-        assertionResultFor(node::assertIsNotDisplayed)
+    override fun isNotVisible(): AssertionResult = assertionResultFor(node::assertIsNotDisplayed)
 
     override fun isButton(): AssertionResult = assertionResultFor(node::assertHasClickAction)
 
-    override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult =
-        assertionResultFor { node.assertTextEquals(value) }
+    override fun isTextEqualTo(
+        value: String,
+        contains: Boolean,
+    ): AssertionResult = assertionResultFor { node.assertTextEquals(value) }
 
-    override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult =
-        assertionResultFor { node.assertTextEquals(value, includeEditableText = false) }
+    override fun isHintEqualTo(
+        value: String,
+        contains: Boolean,
+    ): AssertionResult = assertionResultFor { node.assertTextEquals(value, includeEditableText = false) }
 
     override fun typeText(text: String) {
         node.performTextInput(text)
@@ -53,7 +57,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         node.performTouchInput { longClick(durationMillis = duration.inWholeMilliseconds) }
     }
 
-    override fun swipeUntilIndex(index: Int, velocity: Float?) {
+    override fun swipeUntilIndex(
+        index: Int,
+        velocity: Float?,
+    ) {
         try {
             node.performScrollToIndex(index)
         } catch (e: IllegalArgumentException) {
@@ -62,7 +69,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    override fun swipeUntilKey(key: Any, velocity: Float?) {
+    override fun swipeUntilKey(
+        key: Any,
+        velocity: Float?,
+    ) {
         try {
             node.performScrollToKey(key)
         } catch (e: IllegalArgumentException) {
@@ -83,7 +93,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    override fun swipeUp(startY: Float, endY: Float) {
+    override fun swipeUp(
+        startY: Float,
+        endY: Float,
+    ) {
         node.performTouchInput {
             swipeUp(startY = startY, endY = endY)
         }
@@ -101,7 +114,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    override fun swipeDown(startY: Float, endY: Float) {
+    override fun swipeDown(
+        startY: Float,
+        endY: Float,
+    ) {
         node.performTouchInput {
             swipeDown(startY = startY, endY = endY)
         }
@@ -113,7 +129,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    override fun swipeLeft(startX: Float, endX: Float) {
+    override fun swipeLeft(
+        startX: Float,
+        endX: Float,
+    ) {
         node.performTouchInput {
             swipeLeft(startX = startX, endX = endX)
         }
@@ -125,7 +144,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    override fun swipeRight(startX: Float, endX: Float) {
+    override fun swipeRight(
+        startX: Float,
+        endX: Float,
+    ) {
         node.performTouchInput {
             swipeRight(startX = startX, endX = endX)
         }
@@ -133,10 +155,12 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 }
 
 actual typealias AssertionBlockReturnType = SemanticsNodeInteraction
-actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult = try {
-    assertionBlock()
-    AssertionResult.Success()
-} catch (e: AssertionError) {
+
+actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult =
+    try {
+        assertionBlock()
+        AssertionResult.Success()
+    } catch (e: AssertionError) {
 //     Could take screeshot with node.captureToImage()
-    AssertionResult.Failure(e)
-}
+        AssertionResult.Failure(e)
+    }

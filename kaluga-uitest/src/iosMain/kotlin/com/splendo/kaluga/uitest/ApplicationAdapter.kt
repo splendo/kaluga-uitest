@@ -1,6 +1,5 @@
 package com.splendo.kaluga.uitest
 
-import kotlin.time.Duration
 import platform.Foundation.NSPredicate
 import platform.XCTest.XCTWaiter
 import platform.XCTest.XCTestExpectation
@@ -13,28 +12,42 @@ import platform.XCTest.XCUIElementTypeSecureTextField
 import platform.XCTest.XCUIElementTypeStaticText
 import platform.XCTest.XCUIElementTypeTextField
 import platform.XCTest.XCUIElementTypeTextView
+import kotlin.time.Duration
 
-actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationAdapter() {
+actual class DefaultApplicationAdapter(
+    app: XCUIApplication?,
+) : BaseApplicationAdapter() {
     private val app: XCUIApplication = app ?: XCUIApplication()
 
     @Suppress("UNCHECKED_CAST")
-    override fun launch(identifier: String?, arguments: Map<String, String>) {
+    override fun launch(
+        identifier: String?,
+        arguments: Map<String, String>,
+    ) {
         super.launch(identifier, arguments)
         app.setLaunchEnvironment((arguments as Map<Any?, *>))
         app.launch()
     }
 
-    override fun findViewByTag(tag: String, viewType: ViewType): Node {
-        val element = findDescendantsMatchingType(viewType)
-            .matchingIdentifier(tag)
-            .elementAtIndex(viewType.index.toULong())
+    override fun findViewByTag(
+        tag: String,
+        viewType: ViewType,
+    ): Node {
+        val element =
+            findDescendantsMatchingType(viewType)
+                .matchingIdentifier(tag)
+                .elementAtIndex(viewType.index.toULong())
         return DefaultNode(app, element)
     }
 
-    override fun findViewByText(text: String, viewType: ViewType): Node {
-        val element = findDescendantsMatchingType(viewType)
-            .matchingPredicate(NSPredicate.predicateWithFormat("label LIKE $text"))
-            .elementAtIndex(viewType.index.toULong())
+    override fun findViewByText(
+        text: String,
+        viewType: ViewType,
+    ): Node {
+        val element =
+            findDescendantsMatchingType(viewType)
+                .matchingPredicate(NSPredicate.predicateWithFormat("label LIKE $text"))
+                .elementAtIndex(viewType.index.toULong())
         return DefaultNode(app, element)
     }
 
@@ -63,18 +76,21 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
      */
     override fun assertUntil(
         timeout: Duration,
-        blockAssertionResult: () -> AssertionResult
+        blockAssertionResult: () -> AssertionResult,
     ) = assert(blockAssertionResult())
 
     /**
      * Not called from iOS
      */
-    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
+    override fun assertFailsUntil(
+        timeout: Duration,
+        blockAssertionResult: () -> AssertionResult,
+    ) {
         XCTWaiter.waitForExpectations(
             listOf(
-                XCTestExpectation("")
+                XCTestExpectation(""),
             ),
-            timeout = timeout.nsTimeInterval
+            timeout = timeout.nsTimeInterval,
         )
         assertFails(blockAssertionResult())
     }
@@ -83,24 +99,27 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
      * Not called from iOS
      */
     override fun assertAll(assertions: List<AssertionResult>) = assert(assertions.first())
+
     override fun assertFailsAll(assertions: List<AssertionResult>) {
         assertions.all {
             it is AssertionResult.Failure
         }
     }
 
-    private fun findDescendantsMatchingType(viewType: ViewType): XCUIElementQuery = app
-        .descendantsMatchingType(
-            when (viewType) {
-                is ViewType.Any -> XCUIElementTypeAny
-                is ViewType.Button -> XCUIElementTypeButton
-                is ViewType.Images -> XCUIElementTypeImage
-                is ViewType.SecureTextField -> XCUIElementTypeSecureTextField
-                is ViewType.Text -> when (viewType) {
-                    is ViewType.Text.TextView -> XCUIElementTypeTextView
-                    is ViewType.Text.StaticText -> XCUIElementTypeStaticText
-                }
-                is ViewType.TextField -> XCUIElementTypeTextField
-            }
-        )
+    private fun findDescendantsMatchingType(viewType: ViewType): XCUIElementQuery =
+        app
+            .descendantsMatchingType(
+                when (viewType) {
+                    is ViewType.Any -> XCUIElementTypeAny
+                    is ViewType.Button -> XCUIElementTypeButton
+                    is ViewType.Images -> XCUIElementTypeImage
+                    is ViewType.SecureTextField -> XCUIElementTypeSecureTextField
+                    is ViewType.Text ->
+                        when (viewType) {
+                            is ViewType.Text.TextView -> XCUIElementTypeTextView
+                            is ViewType.Text.StaticText -> XCUIElementTypeStaticText
+                        }
+                    is ViewType.TextField -> XCUIElementTypeTextField
+                },
+            )
 }

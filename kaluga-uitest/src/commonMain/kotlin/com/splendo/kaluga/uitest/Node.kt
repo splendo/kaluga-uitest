@@ -4,7 +4,10 @@ import kotlin.time.Duration
 
 sealed class AssertionResult {
     class Success : AssertionResult()
-    class Failure(val exception: AssertionError) : AssertionResult()
+
+    class Failure(
+        val exception: AssertionError,
+    ) : AssertionResult()
 }
 
 interface Node {
@@ -67,20 +70,27 @@ interface Node {
      * @param value Expected content of the [Node].
      * @param contains If true it will try to find a match in the substrings of the text.
      */
-    fun isTextEqualTo(value: String, contains: Boolean): AssertionResult
+    fun isTextEqualTo(
+        value: String,
+        contains: Boolean,
+    ): AssertionResult
 
     /**
      * Validates whether a [Node]'s value is equal to a given hint.
      * @param value Expected content of the [Node].
      * @param contains If true it will try to find a match in the substrings of the hint.
      */
-    fun isHintEqualTo(value: String, contains: Boolean): AssertionResult
+    fun isHintEqualTo(
+        value: String,
+        contains: Boolean,
+    ): AssertionResult
 
     /**
      * Does a swipeUp action on an element.
      */
 
     fun swipeUp()
+
     /**
      * Does a swipeUp action for a given [SwipeDuration] duration.
      * @param swipeDuration The duration of the swipe.
@@ -92,7 +102,10 @@ interface Node {
      * @param startY Start coordinate
      * @param endY End coordinate
      */
-    fun swipeUp(startY: Float, endY: Float)
+    fun swipeUp(
+        startY: Float,
+        endY: Float,
+    )
 
     /**
      * Does a swipeDown action on an element.
@@ -110,7 +123,10 @@ interface Node {
      * @param startY Start coordinate
      * @param endY End coordinate
      */
-    fun swipeDown(startY: Float, endY: Float)
+    fun swipeDown(
+        startY: Float,
+        endY: Float,
+    )
 
     /**
      * Does a swipeLeft action on an element.
@@ -122,7 +138,10 @@ interface Node {
      * @param startX Start coordinate is greater than [endX]
      * @param endX End coordinate is smaller than [startX]
      */
-    fun swipeLeft(startX: Float, endX: Float)
+    fun swipeLeft(
+        startX: Float,
+        endX: Float,
+    )
 
     /**
      * Does a swipeRight action on an element.
@@ -134,24 +153,34 @@ interface Node {
      * @param startX Start coordinate is smaller than [endX]
      * @param endX End coordinate is greater than [startX]
      */
-    fun swipeRight(startX: Float, endX: Float)
+    fun swipeRight(
+        startX: Float,
+        endX: Float,
+    )
 
     /**
      * Swipe the [Node] until the View with the given index is visible.
      * @param index Index of the view inside a scrollable view
      * @param velocity Speed of the swiping action
      */
-    fun swipeUntilIndex(index: Int, velocity: Float? = null)
+    fun swipeUntilIndex(
+        index: Int,
+        velocity: Float? = null,
+    )
 
     /**
      * Swipe the [Node] until the View with the given key is visible.
      * @param index Index of the view inside a scrollable view
      * @param velocity Speed of the swiping action
      */
-    fun swipeUntilKey(key: Any, velocity: Float? = null)
+    fun swipeUntilKey(
+        key: Any,
+        velocity: Float? = null,
+    )
 }
 
 expect class DefaultNode : Node
 
 expect class AssertionBlockReturnType
+
 expect fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult
