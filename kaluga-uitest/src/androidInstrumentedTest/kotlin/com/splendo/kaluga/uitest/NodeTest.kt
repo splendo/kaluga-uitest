@@ -323,4 +323,58 @@ class NodeTest : BaseAndroidKalugaUITest() {
             counterText.isTextEqualTo("Counter: 1.0", contains = false)
         }
     }
+
+    @Test
+    fun test_is_enabled_and_not_enabled() = runOnApplicationAdapter {
+        testRule.setContent {
+            Column {
+                Button(
+                    onClick = {},
+                    enabled = true,
+                    modifier = Modifier.testTag("enabledButton")
+                ) {
+                    Text("Enabled Button")
+                }
+                Button(
+                    onClick = {},
+                    enabled = false,
+                    modifier = Modifier.testTag("disabledButton")
+                ) {
+                    Text("Disabled Button")
+                }
+            }
+        }
+
+        val enabledButton = findViewByTag("enabledButton")
+        val disabledButton = findViewByTag("disabledButton")
+
+        assert(enabledButton.isEnabled())
+        assert(disabledButton.isNotEnabled())
+        assertFails(enabledButton.isNotEnabled())
+        assertFails(disabledButton.isEnabled())
+    }
+
+    @Test
+    fun test_is_selected_and_not_selected() = runOnApplicationAdapter {
+        testRule.setContent {
+            var isSelected by remember { mutableStateOf(false) }
+            Column {
+                Switch(
+                    checked = isSelected,
+                    onCheckedChange = { isSelected = it },
+                    modifier = Modifier.testTag("testSwitch")
+                )
+            }
+        }
+
+        val switch = findViewByTag("testSwitch")
+
+        assert(switch.isNotSelected())
+        assertFails(switch.isSelected())
+
+        switch.tap()
+
+        assert(switch.isSelected())
+        assertFails(switch.isNotSelected())
+    }
 }
