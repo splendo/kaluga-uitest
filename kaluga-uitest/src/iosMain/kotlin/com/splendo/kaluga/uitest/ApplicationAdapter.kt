@@ -24,14 +24,14 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
         app.launch()
     }
 
-    override fun findViewByTag(tag: String, viewType: ViewType): Node {
+    actual override fun findViewByTag(tag: String, viewType: ViewType): Node {
         val element = findDescendantsMatchingType(viewType)
             .matchingIdentifier(tag)
             .elementAtIndex(viewType.index.toULong())
         return DefaultNode(app, element)
     }
 
-    override fun findViewByText(text: String, viewType: ViewType): Node {
+    actual override fun findViewByText(text: String, viewType: ViewType): Node {
         val element = findDescendantsMatchingType(viewType)
             .matchingPredicate(NSPredicate.predicateWithFormat("label LIKE $text"))
             .elementAtIndex(viewType.index.toULong())
@@ -41,7 +41,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     /**
      * Not called from iOS
      */
-    override fun assert(assertionResult: AssertionResult) {
+    actual override fun assert(assertionResult: AssertionResult) {
         when (assertionResult) {
             is AssertionResult.Failure -> throw assertionResult.exception
             is AssertionResult.Success -> Unit // Do nothing to succeed
@@ -51,7 +51,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     /**
      * Not called from iOS
      */
-    override fun assertFails(assertionResult: AssertionResult) {
+    actual override fun assertFails(assertionResult: AssertionResult) {
         when (assertionResult) {
             is AssertionResult.Success -> error("Test was supposed to fail")
             is AssertionResult.Failure -> Unit
@@ -61,7 +61,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     /**
      * Not called from iOS
      */
-    override fun assertUntil(
+    actual override fun assertUntil(
         timeout: Duration,
         blockAssertionResult: () -> AssertionResult
     ) = assert(blockAssertionResult())
@@ -69,7 +69,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     /**
      * Not called from iOS
      */
-    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
+    actual override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
         XCTWaiter.waitForExpectations(
             listOf(
                 XCTestExpectation("")
@@ -82,8 +82,8 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     /**
      * Not called from iOS
      */
-    override fun assertAll(assertions: List<AssertionResult>) = assert(assertions.first())
-    override fun assertFailsAll(assertions: List<AssertionResult>) {
+    actual override fun assertAll(assertions: List<AssertionResult>) = assert(assertions.first())
+    actual override fun assertFailsAll(assertions: List<AssertionResult>) {
         assertions.all {
             it is AssertionResult.Failure
         }

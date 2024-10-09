@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish Sonatype SNAPSHOT
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v3
+      - name: publish
+        env:
+          SONATYPE_NEXUS_USERNAME: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          SONATYPE_NEXUS_PASSWORD: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+        run: ./gradlew publish
