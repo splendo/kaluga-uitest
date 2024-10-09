@@ -21,29 +21,29 @@ actual class DefaultNode(
     private val element: XCUIElement
 ) : Node {
 
-    override fun exists(): AssertionResult = assertionResultFor { element.exists() }
+    actual override fun exists(): AssertionResult = assertionResultFor { element.exists() }
 
-    override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor {
+    actual override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor {
         element.waitForExistenceWithTimeout(
             timeout.nsTimeInterval
         )
     }
 
-    override fun isVisible(): AssertionResult = exists()
+    actual override fun isVisible(): AssertionResult = exists()
 
-    override fun isNotVisible(): AssertionResult = assertionResultFor {
+    actual override fun isNotVisible(): AssertionResult = assertionResultFor {
         !element.exists()
     }
 
-    override fun isButton(): AssertionResult = assertionResultFor(element::isHittable)
+    actual override fun isButton(): AssertionResult = assertionResultFor(element::isHittable)
 
-    override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult =
+    actual override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult =
         assertionResultFor { isTextEqualOrContains(value, contains) }
 
-    override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult =
+    actual override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult =
         assertionResultFor { isTextEqualOrContains(value, contains) }
 
-    override fun swipeUntilIndex(index: Int, velocity: Float?) {
+    actual override fun swipeUntilIndex(index: Int, velocity: Float?) {
         val listElement = listItemAt(index)
         var retries = 0
         while (!listElement.isHittable() && retries < 25) {
@@ -54,7 +54,7 @@ actual class DefaultNode(
         }
     }
 
-    override fun swipeUntilKey(key: Any, velocity: Float?) {
+    actual override fun swipeUntilKey(key: Any, velocity: Float?) {
         val listElement = listItemWithTag(key.toString()).element
         var retries = 0
         while (!listElement.isHittable() && retries < 25) {
@@ -65,15 +65,15 @@ actual class DefaultNode(
         }
     }
 
-    override fun swipeUp() {
+    actual override fun swipeUp() {
         element.swipeUp()
     }
 
-    override fun swipeUp(swipeDuration: Duration) {
+    actual override fun swipeUp(swipeDuration: Duration) {
         element.swipeUpWithVelocity(swipeDuration.toDouble(DurationUnit.MILLISECONDS))
     }
 
-    override fun swipeUp(startY: Float, endY: Float) {
+    actual override fun swipeUp(startY: Float, endY: Float) {
         TODO("Unstable API, needs more investigation")
 //        val scrollViewCoordinate = element.coordinateWithNormalizedOffset(
 //            CGVectorMake(0.0, startY.toDouble())
@@ -90,50 +90,50 @@ actual class DefaultNode(
     }
 
 
-    override fun swipeDown() {
+    actual override fun swipeDown() {
         element.swipeDown()
     }
 
-    override fun swipeDown(swipeDuration: Duration) {
+    actual override fun swipeDown(swipeDuration: Duration) {
         element.swipeDownWithVelocity(swipeDuration.toDouble(DurationUnit.MILLISECONDS))
     }
 
-    override fun swipeDown(startY: Float, endY: Float) {
+    actual override fun swipeDown(startY: Float, endY: Float) {
         TODO("Unstable API, needs more investigation")
     }
 
-    override fun swipeLeft() {
+    actual override fun swipeLeft() {
         element.swipeLeft()
     }
 
-    override fun swipeLeft(startX: Float, endX: Float) {
+    actual override fun swipeLeft(startX: Float, endX: Float) {
         TODO("Unstable API, needs more investigation")
     }
 
-    override fun swipeRight() {
+    actual override fun swipeRight() {
         element.swipeRight()
     }
 
-    override fun swipeRight(startX: Float, endX: Float) {
+    actual override fun swipeRight(startX: Float, endX: Float) {
         TODO("Unstable API, needs more investigation")
     }
 
-    override fun typeText(text: String) {
+    actual override fun typeText(text: String) {
         if (!element.hasFocus) {
             element.tap()
         }
         element.typeText(text)
     }
 
-    override fun tap() {
+    actual override fun tap() {
         element.tap()
     }
 
-    override fun doubleTap() {
+    actual override fun doubleTap() {
         element.doubleTap()
     }
 
-    override fun press(duration: Duration) {
+    actual override fun press(duration: Duration) {
         element.pressForDuration(duration.nsTimeInterval)
     }
 

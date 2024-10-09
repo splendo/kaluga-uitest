@@ -151,7 +151,39 @@ interface Node {
     fun swipeUntilKey(key: Any, velocity: Float? = null)
 }
 
-expect class DefaultNode : Node
+expect class DefaultNode : Node {
+    override fun typeText(text: String)
+    override fun tap()
+    override fun doubleTap()
+    override fun press(duration: Duration)
+    override fun exists(): AssertionResult
+    override fun waitExists(timeout: Duration): AssertionResult
+    override fun isVisible(): AssertionResult
+    override fun isNotVisible(): AssertionResult
+    override fun isButton(): AssertionResult
+    override fun isTextEqualTo(
+        value: String,
+        contains: Boolean
+    ): AssertionResult
+
+    override fun isHintEqualTo(
+        value: String,
+        contains: Boolean
+    ): AssertionResult
+
+    override fun swipeUp()
+    override fun swipeUp(swipeDuration: Duration)
+    override fun swipeUp(startY: Float, endY: Float)
+    override fun swipeDown()
+    override fun swipeDown(swipeDuration: Duration)
+    override fun swipeDown(startY: Float, endY: Float)
+    override fun swipeLeft()
+    override fun swipeLeft(startX: Float, endX: Float)
+    override fun swipeRight()
+    override fun swipeRight(startX: Float, endX: Float)
+    override fun swipeUntilIndex(index: Int, velocity: Float?)
+    override fun swipeUntilKey(key: Any, velocity: Float?)
+}
 
 expect class AssertionBlockReturnType
 expect fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult

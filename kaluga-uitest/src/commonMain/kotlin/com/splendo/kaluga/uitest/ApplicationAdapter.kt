@@ -92,7 +92,33 @@ abstract class BaseApplicationAdapter : ApplicationAdapter {
     }
 }
 
-expect class DefaultApplicationAdapter: BaseApplicationAdapter
+expect class DefaultApplicationAdapter: BaseApplicationAdapter {
+
+    override fun findViewByTag(
+        tag: String,
+        viewType: ViewType
+    ): Node
+
+    override fun findViewByText(
+        text: String,
+        viewType: ViewType
+    ): Node
+
+    override fun assert(assertionResult: AssertionResult)
+    override fun assertFails(assertionResult: AssertionResult)
+    override fun assertUntil(
+        timeout: Duration,
+        blockAssertionResult: () -> AssertionResult
+    )
+
+    override fun assertFailsUntil(
+        timeout: Duration,
+        blockAssertionResult: () -> AssertionResult
+    )
+
+    override fun assertAll(assertions: List<AssertionResult>)
+    override fun assertFailsAll(assertions: List<AssertionResult>)
+}
 
 fun ApplicationAdapter.assertAll(vararg assertions: AssertionResult) =
     assertAll(assertions.toList())

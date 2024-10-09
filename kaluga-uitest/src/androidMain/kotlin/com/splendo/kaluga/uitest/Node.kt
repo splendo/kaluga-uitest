@@ -19,41 +19,41 @@ import androidx.compose.ui.test.swipeUp
 import kotlin.time.Duration
 
 actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
-    override fun exists(): AssertionResult = assertionResultFor(node::assertExists)
+    actual override fun exists(): AssertionResult = assertionResultFor(node::assertExists)
 
-    override fun waitExists(timeout: Duration): AssertionResult =
+    actual override fun waitExists(timeout: Duration): AssertionResult =
         assertionResultFor(node:: assertExists)
 
-    override fun isVisible(): AssertionResult = assertionResultFor(node::assertIsDisplayed)
+    actual override fun isVisible(): AssertionResult = assertionResultFor(node::assertIsDisplayed)
 
-    override fun isNotVisible(): AssertionResult =
+    actual override fun isNotVisible(): AssertionResult =
         assertionResultFor(node::assertIsNotDisplayed)
 
-    override fun isButton(): AssertionResult = assertionResultFor(node::assertHasClickAction)
+    actual override fun isButton(): AssertionResult = assertionResultFor(node::assertHasClickAction)
 
-    override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult =
+    actual override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult =
         assertionResultFor { node.assertTextEquals(value) }
 
-    override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult =
+    actual override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult =
         assertionResultFor { node.assertTextEquals(value, includeEditableText = false) }
 
-    override fun typeText(text: String) {
+    actual override fun typeText(text: String) {
         node.performTextInput(text)
     }
 
-    override fun tap() {
+    actual override fun tap() {
         node.performClick()
     }
 
-    override fun doubleTap() {
+    actual override fun doubleTap() {
         node.performTouchInput { doubleClick() }
     }
 
-    override fun press(duration: Duration) {
+    actual override fun press(duration: Duration) {
         node.performTouchInput { longClick(durationMillis = duration.inWholeMilliseconds) }
     }
 
-    override fun swipeUntilIndex(index: Int, velocity: Float?) {
+    actual override fun swipeUntilIndex(index: Int, velocity: Float?) {
         try {
             node.performScrollToIndex(index)
         } catch (e: IllegalArgumentException) {
@@ -62,7 +62,7 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    override fun swipeUntilKey(key: Any, velocity: Float?) {
+    actual override fun swipeUntilKey(key: Any, velocity: Float?) {
         try {
             node.performScrollToKey(key)
         } catch (e: IllegalArgumentException) {
@@ -71,61 +71,61 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    override fun swipeUp() {
+    actual override fun swipeUp() {
         node.performTouchInput {
             swipeUp()
         }
     }
 
-    override fun swipeUp(swipeDuration: Duration) {
+    actual override fun swipeUp(swipeDuration: Duration) {
         node.performTouchInput {
             swipeUp(durationMillis = swipeDuration.inWholeMilliseconds)
         }
     }
 
-    override fun swipeUp(startY: Float, endY: Float) {
+    actual override fun swipeUp(startY: Float, endY: Float) {
         node.performTouchInput {
             swipeUp(startY = startY, endY = endY)
         }
     }
 
-    override fun swipeDown() {
+    actual override fun swipeDown() {
         node.performTouchInput {
             swipeDown()
         }
     }
 
-    override fun swipeDown(swipeDuration: Duration) {
+    actual override fun swipeDown(swipeDuration: Duration) {
         node.performTouchInput {
             swipeDown(durationMillis = swipeDuration.inWholeMilliseconds)
         }
     }
 
-    override fun swipeDown(startY: Float, endY: Float) {
+    actual override fun swipeDown(startY: Float, endY: Float) {
         node.performTouchInput {
             swipeDown(startY = startY, endY = endY)
         }
     }
 
-    override fun swipeLeft() {
+    actual override fun swipeLeft() {
         node.performTouchInput {
             swipeLeft()
         }
     }
 
-    override fun swipeLeft(startX: Float, endX: Float) {
+    actual override fun swipeLeft(startX: Float, endX: Float) {
         node.performTouchInput {
             swipeLeft(startX = startX, endX = endX)
         }
     }
 
-    override fun swipeRight() {
+    actual override fun swipeRight() {
         node.performTouchInput {
             swipeRight()
         }
     }
 
-    override fun swipeRight(startX: Float, endX: Float) {
+    actual override fun swipeRight(startX: Float, endX: Float) {
         node.performTouchInput {
             swipeRight(startX = startX, endX = endX)
         }

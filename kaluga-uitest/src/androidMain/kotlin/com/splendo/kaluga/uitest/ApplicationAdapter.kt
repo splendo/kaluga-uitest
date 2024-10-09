@@ -28,15 +28,15 @@ actual class DefaultApplicationAdapter(
         instrumentation.startActivitySync(intent)
     }
 
-    override fun findViewByTag(tag: String, viewType: ViewType): Node {
+    actual override fun findViewByTag(tag: String, viewType: ViewType): Node {
         return DefaultNode(testRule.onNodeWithTag(tag))
     }
 
-    override fun findViewByText(text: String, viewType: ViewType): Node {
+    actual override fun findViewByText(text: String, viewType: ViewType): Node {
         return DefaultNode(testRule.onNodeWithText(text))
     }
 
-    override fun assert(assertionResult: AssertionResult) {
+    actual override fun assert(assertionResult: AssertionResult) {
         when (assertionResult) {
             is AssertionResult.Failure -> {
                 throw assertionResult.exception
@@ -45,12 +45,12 @@ actual class DefaultApplicationAdapter(
         }
     }
 
-    override fun assertFails(assertionResult: AssertionResult) = when (assertionResult) {
+    actual override fun assertFails(assertionResult: AssertionResult) = when (assertionResult) {
         is AssertionResult.Failure -> Unit
         is AssertionResult.Success -> Unit
     }
 
-    override fun assertUntil(
+    actual override fun assertUntil(
         timeout: Duration,
         blockAssertionResult: () -> AssertionResult
     ) {
@@ -62,13 +62,13 @@ actual class DefaultApplicationAdapter(
         }
     }
 
-    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
+    actual override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
         testRule.waitUntil(timeout.inWholeMilliseconds) {
             blockAssertionResult() is AssertionResult.Failure
         }
     }
 
-    override fun assertAll(assertions: List<AssertionResult>) {
+    actual override fun assertAll(assertions: List<AssertionResult>) {
         testRule.waitUntil {
             assertions.all {
                 if (it is AssertionResult.Failure)
@@ -78,7 +78,7 @@ actual class DefaultApplicationAdapter(
         }
     }
 
-    override fun assertFailsAll(assertions: List<AssertionResult>) {
+    actual override fun assertFailsAll(assertions: List<AssertionResult>) {
         testRule.waitUntil {
             assertions.all {
                 it is AssertionResult.Failure
