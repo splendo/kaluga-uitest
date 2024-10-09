@@ -15,15 +15,5 @@ val libraryVersion: String by project
 subprojects {
     group = "com.splendo.kaluga.uitest"
     version = libraryVersion
-    afterEvaluate {
-        publishing {
-            publications.withType<MavenPublication> {
-                artifactId = if (name == "kotlinMultiplatform") {
-                    project.name
-                } else {
-                    "${project.name}-$name"
-                }
-            }
-        }
-    }
+
 }
