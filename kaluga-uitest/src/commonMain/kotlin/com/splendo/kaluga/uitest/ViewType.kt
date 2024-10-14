@@ -27,5 +27,6 @@ sealed class ViewType {
      */
     class SecureTextField(override val index: Int = 0) : ViewType()
     class Button(override val index: Int = 0) : ViewType()
+    class Group(override val index: Int = 0) : ViewType()
     class Any(override val index: Int = 0) : ViewType()
 }

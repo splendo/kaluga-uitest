@@ -3,7 +3,11 @@ package com.splendo.kaluga.uitest
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.doubleClick
 import androidx.compose.ui.test.longClick
@@ -130,6 +134,14 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
             swipeRight(startX = startX, endX = endX)
         }
     }
+
+    override fun isEnabled(): AssertionResult = assertionResultFor(node::assertIsEnabled)
+
+    override fun isNotEnabled(): AssertionResult = assertionResultFor(node::assertIsNotEnabled)
+
+    override fun isSelected(): AssertionResult = assertionResultFor(node::assertIsSelected)
+
+    override fun isNotSelected(): AssertionResult = assertionResultFor(node::assertIsNotSelected)
 }
 
 actual typealias AssertionBlockReturnType = SemanticsNodeInteraction

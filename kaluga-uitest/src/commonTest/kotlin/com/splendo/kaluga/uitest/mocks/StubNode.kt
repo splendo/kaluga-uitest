@@ -160,4 +160,32 @@ class StubNode : Node {
         swipeUntilKeyCalledTimes++
         swipeUntilKeyCalledWith = Pair(key, velocity)
     }
+
+    var isEnabledCalledTimes = 0
+    var isEnabledReturn: AssertionResult? = null
+    override fun isEnabled(): AssertionResult {
+        isEnabledCalledTimes++
+        return isEnabledReturn ?: throw IllegalStateException("Must set isVisibleReturn first")
+    }
+
+    var isNotEnabledCalledTimes = 0
+    var isNotEnabledReturn: AssertionResult? = null
+    override fun isNotEnabled(): AssertionResult {
+        isNotEnabledCalledTimes++
+        return isNotEnabledReturn ?: throw IllegalStateException("Must set isButtonReturn first")
+    }
+
+    var isSelectedCalledTimes = 0
+    var isSelectedReturn: AssertionResult? = null
+    override fun isSelected(): AssertionResult {
+        isSelectedCalledTimes++
+        return isSelectedReturn ?: throw IllegalStateException("Must set isButtonReturn first")
+    }
+
+    var isNotSelectedCalledTimes = 0
+    var isNotSelectedReturn: AssertionResult? = null
+    override fun isNotSelected(): AssertionResult {
+        isNotSelectedCalledTimes++
+        return isNotSelectedReturn ?: throw IllegalStateException("Must set isButtonReturn first")
+    }
 }
