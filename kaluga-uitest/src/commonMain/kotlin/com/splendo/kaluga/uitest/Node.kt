@@ -177,24 +177,16 @@ interface Node {
 
 expect class DefaultNode : Node {
     override fun typeText(text: String)
+    override fun exists(): AssertionResult
     override fun tap()
     override fun doubleTap()
     override fun press(duration: Duration)
-    override fun exists(): AssertionResult
     override fun waitExists(timeout: Duration): AssertionResult
     override fun isVisible(): AssertionResult
     override fun isNotVisible(): AssertionResult
     override fun isButton(): AssertionResult
-    override fun isTextEqualTo(
-        value: String,
-        contains: Boolean
-    ): AssertionResult
-
-    override fun isHintEqualTo(
-        value: String,
-        contains: Boolean
-    ): AssertionResult
-
+    override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult
+    override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult
     override fun swipeUp()
     override fun swipeUp(swipeDuration: Duration)
     override fun swipeUp(startY: Float, endY: Float)
@@ -207,6 +199,10 @@ expect class DefaultNode : Node {
     override fun swipeRight(startX: Float, endX: Float)
     override fun swipeUntilIndex(index: Int, velocity: Float?)
     override fun swipeUntilKey(key: Any, velocity: Float?)
+    override fun isEnabled(): AssertionResult
+    override fun isNotEnabled(): AssertionResult
+    override fun isSelected(): AssertionResult
+    override fun isNotSelected(): AssertionResult
 }
 
 expect class AssertionBlockReturnType
