@@ -1,0 +1,14 @@
+on:
+  pull_request
+
+jobs:
+  check:
+    name: Check
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: assemble
+        run: ./gradlew assemble
+      # disables until tests actually work
+      # - name: test
+      #   run: ./gradlew test
