@@ -185,8 +185,15 @@ expect class DefaultNode : Node {
     override fun isVisible(): AssertionResult
     override fun isNotVisible(): AssertionResult
     override fun isButton(): AssertionResult
-    override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult
-    override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult
+    override fun isTextEqualTo(
+        value: String,
+        contains: Boolean
+    ): AssertionResult
+
+    override fun isHintEqualTo(
+        value: String,
+        contains: Boolean
+    ): AssertionResult
     override fun swipeUp()
     override fun swipeUp(swipeDuration: Duration)
     override fun swipeUp(startY: Float, endY: Float)
