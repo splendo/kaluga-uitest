@@ -12,18 +12,16 @@ class ApplicationAdapterTest {
     }
 
     @Test
-    fun test_find_view_by_text_is_visible() =
-        runApplicationAdapterTest {
+    fun test_find_view_by_text_is_visible() = runApplicationAdapterTest {
 //        app.launch()
 //        val element = findViewByText("test")
 //        assert(element.isVisible())
-        }
+    }
 
     @Test
-    fun test_find_view_by_tag_is_visible() =
-        runApplicationAdapterTest {
+    fun test_find_view_by_tag_is_visible() = runApplicationAdapterTest {
 //        app.launch()
 //        val element = findViewByTag("testTag")
 //        assert(element.isVisible())
-        }
+    }
 }

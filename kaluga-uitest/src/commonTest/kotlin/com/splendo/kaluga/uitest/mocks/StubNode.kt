@@ -79,10 +79,7 @@ class StubNode : Node {
     var isTextEqualToCalledWith: Pair<String, Boolean>? = null
     var isTextEqualToReturn: AssertionResult? = null
 
-    override fun isTextEqualTo(
-        value: String,
-        contains: Boolean,
-    ): AssertionResult {
+    override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult {
         isTextEqualToCalledTimes++
         isTextEqualToCalledWith = Pair(value, contains)
         return isTextEqualToReturn ?: throw IllegalStateException("Must set isTextEqualToReturn first")
@@ -92,10 +89,7 @@ class StubNode : Node {
     var isHintEqualToCalledWith: Pair<String, Boolean>? = null
     var isHintEqualToReturn: AssertionResult? = null
 
-    override fun isHintEqualTo(
-        value: String,
-        contains: Boolean,
-    ): AssertionResult {
+    override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult {
         isHintEqualToCalledTimes++
         isHintEqualToCalledWith = Pair(value, contains)
         return isHintEqualToReturn ?: throw IllegalStateException("Must set isHintEqualToReturn first")
@@ -118,10 +112,7 @@ class StubNode : Node {
     var swipeUpWithCoordsCalledTimes = 0
     var swipeUpWithCoordsCalledWith: Pair<Float, Float>? = null
 
-    override fun swipeUp(
-        startY: Float,
-        endY: Float,
-    ) {
+    override fun swipeUp(startY: Float, endY: Float) {
         swipeUpWithCoordsCalledTimes++
         swipeUpWithCoordsCalledWith = Pair(startY, endY)
     }
@@ -143,10 +134,7 @@ class StubNode : Node {
     var swipeDownWithCoordsCalledTimes = 0
     var swipeDownWithCoordsCalledWith: Pair<Float, Float>? = null
 
-    override fun swipeDown(
-        startY: Float,
-        endY: Float,
-    ) {
+    override fun swipeDown(startY: Float, endY: Float) {
         swipeDownWithCoordsCalledTimes++
         swipeDownWithCoordsCalledWith = Pair(startY, endY)
     }
@@ -160,10 +148,7 @@ class StubNode : Node {
     var swipeLeftWithCoordsCalledTimes = 0
     var swipeLeftWithCoordsCalledWith: Pair<Float, Float>? = null
 
-    override fun swipeLeft(
-        startX: Float,
-        endX: Float,
-    ) {
+    override fun swipeLeft(startX: Float, endX: Float) {
         swipeLeftWithCoordsCalledTimes++
         swipeLeftWithCoordsCalledWith = startX to endX
     }
@@ -177,10 +162,7 @@ class StubNode : Node {
     var swipeRightWithCoordsCalledTimes = 0
     var swipeRightWithCoordsCalledWith: Pair<Float, Float>? = null
 
-    override fun swipeRight(
-        startX: Float,
-        endX: Float,
-    ) {
+    override fun swipeRight(startX: Float, endX: Float) {
         swipeRightWithCoordsCalledTimes++
         swipeRightWithCoordsCalledWith = startX to endX
     }
@@ -188,10 +170,7 @@ class StubNode : Node {
     var swipeUntilIndexCalledTimes = 0
     var swipeUntilIndexCalledWith: Pair<Int, Float?>? = null
 
-    override fun swipeUntilIndex(
-        index: Int,
-        velocity: Float?,
-    ) {
+    override fun swipeUntilIndex(index: Int, velocity: Float?) {
         swipeUntilIndexCalledTimes++
         swipeUntilIndexCalledWith = Pair(index, velocity)
     }
@@ -199,10 +178,7 @@ class StubNode : Node {
     var swipeUntilKeyCalledTimes = 0
     var swipeUntilKeyCalledWith: Pair<Any, Float?>? = null
 
-    override fun swipeUntilKey(
-        key: Any,
-        velocity: Float?,
-    ) {
+    override fun swipeUntilKey(key: Any, velocity: Float?) {
         swipeUntilKeyCalledTimes++
         swipeUntilKeyCalledWith = Pair(key, velocity)
     }

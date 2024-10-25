@@ -8,81 +8,51 @@ import kotlin.time.Duration
 class EmptyApplicationAdapter : ApplicationAdapter {
     override val applicationArguments: ApplicationArguments = mapOf()
 
-    override fun launch(
-        identifier: String?,
-        arguments: Map<String, String>,
-    ): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun launch(identifier: String?, arguments: Map<String, String>): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun findViewByTag(
-        tag: String,
-        viewType: ViewType,
-    ): Node =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun findViewByTag(tag: String, viewType: ViewType): Node = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun findViewByText(
-        text: String,
-        viewType: ViewType,
-    ): Node =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun findViewByText(text: String, viewType: ViewType): Node = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun tearDown(): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun tearDown(): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun assert(assertionResult: AssertionResult): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun assert(assertionResult: AssertionResult): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun assertFails(assertionResult: AssertionResult): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun assertFails(assertionResult: AssertionResult): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun assertUntil(
-        timeout: Duration,
-        blockAssertionResult: () -> AssertionResult,
-    ): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun assertUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun assertFailsUntil(
-        timeout: Duration,
-        blockAssertionResult: () -> AssertionResult,
-    ): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun assertAll(assertions: List<AssertionResult>): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun assertAll(assertions: List<AssertionResult>): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun assertFailsAll(assertions: List<AssertionResult>): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun assertFailsAll(assertions: List<AssertionResult>): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun get(key: String): String? =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun get(key: String): String? = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 
-    override fun set(
-        key: String,
-        value: String,
-    ): Unit =
-        throw IllegalStateException(
-            "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
-        )
+    override fun set(key: String, value: String): Unit = throw IllegalStateException(
+        "This is EmptyApplicationAdapter, implement a custom ApplicationAdapter or use DefaultApplicationAdapter",
+    )
 }

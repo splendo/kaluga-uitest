@@ -20,10 +20,10 @@ class ApplicationAdapterTest {
         app.launch(
             identifier = null,
             arguments =
-                mapOf(
-                    "foo" to "bar",
-                    "baz" to "qux",
-                ),
+            mapOf(
+                "foo" to "bar",
+                "baz" to "qux",
+            ),
         )
         assertEquals(1, app.launchCalled)
         assertEquals(mapOf("foo" to "bar", "baz" to "qux"), app.launchArguments)

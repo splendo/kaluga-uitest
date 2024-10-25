@@ -16,42 +16,28 @@ import platform.XCTest.typeText
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
-actual class DefaultNode(
-    private val app: XCUIApplication,
-    private val element: XCUIElement,
-) : Node {
+actual class DefaultNode(private val app: XCUIApplication, private val element: XCUIElement) : Node {
     actual override fun exists(): AssertionResult = assertionResultFor { element.exists() }
 
-    actual override fun waitExists(timeout: Duration): AssertionResult =
-        assertionResultFor {
-            element.waitForExistenceWithTimeout(
-                timeout.nsTimeInterval,
-            )
-        }
+    actual override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor {
+        element.waitForExistenceWithTimeout(
+            timeout.nsTimeInterval,
+        )
+    }
 
     actual override fun isVisible(): AssertionResult = exists()
 
-    actual override fun isNotVisible(): AssertionResult =
-        assertionResultFor {
-            !element.exists()
-        }
+    actual override fun isNotVisible(): AssertionResult = assertionResultFor {
+        !element.exists()
+    }
 
     actual override fun isButton(): AssertionResult = assertionResultFor(element::isHittable)
 
-    actual override fun isTextEqualTo(
-        value: String,
-        contains: Boolean,
-    ): AssertionResult = assertionResultFor { isTextEqualOrContains(value, contains) }
+    actual override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult = assertionResultFor { isTextEqualOrContains(value, contains) }
 
-    actual override fun isHintEqualTo(
-        value: String,
-        contains: Boolean,
-    ): AssertionResult = assertionResultFor { isTextEqualOrContains(value, contains) }
+    actual override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult = assertionResultFor { isTextEqualOrContains(value, contains) }
 
-    actual override fun swipeUntilIndex(
-        index: Int,
-        velocity: Float?,
-    ) {
+    actual override fun swipeUntilIndex(index: Int, velocity: Float?) {
         val listElement = listItemAt(index)
         var retries = 0
         while (!listElement.isHittable() && retries < 25) {
@@ -62,10 +48,7 @@ actual class DefaultNode(
         }
     }
 
-    actual override fun swipeUntilKey(
-        key: Any,
-        velocity: Float?,
-    ) {
+    actual override fun swipeUntilKey(key: Any, velocity: Float?) {
         val listElement = listItemWithTag(key.toString()).element
         var retries = 0
         while (!listElement.isHittable() && retries < 25) {
@@ -84,10 +67,7 @@ actual class DefaultNode(
         element.swipeUpWithVelocity(swipeDuration.toDouble(DurationUnit.MILLISECONDS))
     }
 
-    actual override fun swipeUp(
-        startY: Float,
-        endY: Float,
-    ) {
+    actual override fun swipeUp(startY: Float, endY: Float) {
         TODO("Unstable API, needs more investigation")
 //        val scrollViewCoordinate = element.coordinateWithNormalizedOffset(
 //            CGVectorMake(0.0, startY.toDouble())
@@ -111,10 +91,7 @@ actual class DefaultNode(
         element.swipeDownWithVelocity(swipeDuration.toDouble(DurationUnit.MILLISECONDS))
     }
 
-    actual override fun swipeDown(
-        startY: Float,
-        endY: Float,
-    ) {
+    actual override fun swipeDown(startY: Float, endY: Float) {
         TODO("Unstable API, needs more investigation")
     }
 
@@ -122,10 +99,7 @@ actual class DefaultNode(
         element.swipeLeft()
     }
 
-    actual override fun swipeLeft(
-        startX: Float,
-        endX: Float,
-    ) {
+    actual override fun swipeLeft(startX: Float, endX: Float) {
         TODO("Unstable API, needs more investigation")
     }
 
@@ -133,10 +107,7 @@ actual class DefaultNode(
         element.swipeRight()
     }
 
-    actual override fun swipeRight(
-        startX: Float,
-        endX: Float,
-    ) {
+    actual override fun swipeRight(startX: Float, endX: Float) {
         TODO("Unstable API, needs more investigation")
     }
 
@@ -159,52 +130,41 @@ actual class DefaultNode(
         element.pressForDuration(duration.nsTimeInterval)
     }
 
-    actual override fun isEnabled(): AssertionResult =
-        assertionResultFor {
-            element.isEnabled()
-        }
+    actual override fun isEnabled(): AssertionResult = assertionResultFor {
+        element.isEnabled()
+    }
 
-    actual override fun isNotEnabled(): AssertionResult =
-        assertionResultFor {
-            !element.isEnabled()
-        }
+    actual override fun isNotEnabled(): AssertionResult = assertionResultFor {
+        !element.isEnabled()
+    }
 
-    actual override fun isSelected(): AssertionResult =
-        assertionResultFor {
-            element.isSelected()
-        }
+    actual override fun isSelected(): AssertionResult = assertionResultFor {
+        element.isSelected()
+    }
 
-    actual override fun isNotSelected(): AssertionResult =
-        assertionResultFor {
-            !element.isSelected()
-        }
+    actual override fun isNotSelected(): AssertionResult = assertionResultFor {
+        !element.isSelected()
+    }
 
-    private fun isTextEqualOrContains(
-        value: String,
-        contains: Boolean,
-    ): Boolean =
-        if (contains) {
-            (element.value as? String)?.contains(value) == true
-        } else {
-            element.value == value
-        }
+    private fun isTextEqualOrContains(value: String, contains: Boolean): Boolean = if (contains) {
+        (element.value as? String)?.contains(value) == true
+    } else {
+        element.value == value
+    }
 
-    private fun listItemAt(index: Int) =
-        element
-            .descendantsMatchingType(XCUIElementTypeAny)
-            .elementAtIndex(index.toULong())
+    private fun listItemAt(index: Int) = element
+        .descendantsMatchingType(XCUIElementTypeAny)
+        .elementAtIndex(index.toULong())
 
-    private fun listItemWithTag(tag: String) =
-        element
-            .descendantsMatchingType(XCUIElementTypeAny)
-            .matchingIdentifier(tag)
+    private fun listItemWithTag(tag: String) = element
+        .descendantsMatchingType(XCUIElementTypeAny)
+        .matchingIdentifier(tag)
 }
 
 actual typealias AssertionBlockReturnType = Boolean
 
-actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult =
-    if (assertionBlock()) {
-        AssertionResult.Success()
-    } else {
-        AssertionResult.Failure(AssertionError())
-    }
+actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult = if (assertionBlock()) {
+    AssertionResult.Success()
+} else {
+    AssertionResult.Failure(AssertionError())
+}

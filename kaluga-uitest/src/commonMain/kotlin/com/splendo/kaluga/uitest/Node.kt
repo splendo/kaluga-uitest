@@ -5,9 +5,7 @@ import kotlin.time.Duration
 sealed class AssertionResult {
     class Success : AssertionResult()
 
-    class Failure(
-        val exception: AssertionError,
-    ) : AssertionResult()
+    class Failure(val exception: AssertionError) : AssertionResult()
 }
 
 interface Node {
@@ -70,20 +68,14 @@ interface Node {
      * @param value Expected content of the [Node].
      * @param contains If true it will try to find a match in the substrings of the text.
      */
-    fun isTextEqualTo(
-        value: String,
-        contains: Boolean,
-    ): AssertionResult
+    fun isTextEqualTo(value: String, contains: Boolean): AssertionResult
 
     /**
      * Validates whether a [Node]'s value is equal to a given hint.
      * @param value Expected content of the [Node].
      * @param contains If true it will try to find a match in the substrings of the hint.
      */
-    fun isHintEqualTo(
-        value: String,
-        contains: Boolean,
-    ): AssertionResult
+    fun isHintEqualTo(value: String, contains: Boolean): AssertionResult
 
     /**
      * Does a swipeUp action on an element.
@@ -102,10 +94,7 @@ interface Node {
      * @param startY Start coordinate
      * @param endY End coordinate
      */
-    fun swipeUp(
-        startY: Float,
-        endY: Float,
-    )
+    fun swipeUp(startY: Float, endY: Float)
 
     /**
      * Does a swipeDown action on an element.
@@ -123,10 +112,7 @@ interface Node {
      * @param startY Start coordinate
      * @param endY End coordinate
      */
-    fun swipeDown(
-        startY: Float,
-        endY: Float,
-    )
+    fun swipeDown(startY: Float, endY: Float)
 
     /**
      * Does a swipeLeft action on an element.
@@ -138,10 +124,7 @@ interface Node {
      * @param startX Start coordinate is greater than [endX]
      * @param endX End coordinate is smaller than [startX]
      */
-    fun swipeLeft(
-        startX: Float,
-        endX: Float,
-    )
+    fun swipeLeft(startX: Float, endX: Float)
 
     /**
      * Does a swipeRight action on an element.
@@ -153,30 +136,21 @@ interface Node {
      * @param startX Start coordinate is smaller than [endX]
      * @param endX End coordinate is greater than [startX]
      */
-    fun swipeRight(
-        startX: Float,
-        endX: Float,
-    )
+    fun swipeRight(startX: Float, endX: Float)
 
     /**
      * Swipe the [Node] until the View with the given index is visible.
      * @param index Index of the view inside a scrollable view
      * @param velocity Speed of the swiping action
      */
-    fun swipeUntilIndex(
-        index: Int,
-        velocity: Float? = null,
-    )
+    fun swipeUntilIndex(index: Int, velocity: Float? = null)
 
     /**
      * Swipe the [Node] until the View with the given key is visible.
      * @param index Index of the view inside a scrollable view
      * @param velocity Speed of the swiping action
      */
-    fun swipeUntilKey(
-        key: Any,
-        velocity: Float? = null,
-    )
+    fun swipeUntilKey(key: Any, velocity: Float? = null)
 
     /**
      * Returns [AssertionResult.Success] if the [Node] is enabled.
@@ -222,57 +196,33 @@ expect class DefaultNode : Node {
 
     override fun isButton(): AssertionResult
 
-    override fun isTextEqualTo(
-        value: String,
-        contains: Boolean,
-    ): AssertionResult
+    override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult
 
-    override fun isHintEqualTo(
-        value: String,
-        contains: Boolean,
-    ): AssertionResult
+    override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult
 
     override fun swipeUp()
 
     override fun swipeUp(swipeDuration: Duration)
 
-    override fun swipeUp(
-        startY: Float,
-        endY: Float,
-    )
+    override fun swipeUp(startY: Float, endY: Float)
 
     override fun swipeDown()
 
     override fun swipeDown(swipeDuration: Duration)
 
-    override fun swipeDown(
-        startY: Float,
-        endY: Float,
-    )
+    override fun swipeDown(startY: Float, endY: Float)
 
     override fun swipeLeft()
 
-    override fun swipeLeft(
-        startX: Float,
-        endX: Float,
-    )
+    override fun swipeLeft(startX: Float, endX: Float)
 
     override fun swipeRight()
 
-    override fun swipeRight(
-        startX: Float,
-        endX: Float,
-    )
+    override fun swipeRight(startX: Float, endX: Float)
 
-    override fun swipeUntilIndex(
-        index: Int,
-        velocity: Float?,
-    )
+    override fun swipeUntilIndex(index: Int, velocity: Float?)
 
-    override fun swipeUntilKey(
-        key: Any,
-        velocity: Float?,
-    )
+    override fun swipeUntilKey(key: Any, velocity: Float?)
 
     override fun isEnabled(): AssertionResult
 
