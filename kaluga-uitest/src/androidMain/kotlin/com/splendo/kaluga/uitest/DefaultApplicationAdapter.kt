@@ -8,15 +8,10 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlin.time.Duration
 
-actual class DefaultApplicationAdapter(
-    testRule: ComposeTestRule? = null,
-) : BaseApplicationAdapter() {
+actual class DefaultApplicationAdapter(testRule: ComposeTestRule? = null) : BaseApplicationAdapter() {
     private val testRule = testRule ?: createComposeRule()
 
-    override fun launch(
-        identifier: String?,
-        arguments: Map<String, String>,
-    ) {
+    override fun launch(identifier: String?, arguments: Map<String, String>) {
         super.launch(identifier, arguments)
 
         val instrumentation = InstrumentationRegistry.getInstrumentation()
@@ -31,15 +26,9 @@ actual class DefaultApplicationAdapter(
         instrumentation.startActivitySync(intent)
     }
 
-    actual override fun findViewByTag(
-        tag: String,
-        viewType: ViewType,
-    ): Node = DefaultNode(testRule.onNodeWithTag(tag))
+    actual override fun findViewByTag(tag: String, viewType: ViewType): Node = DefaultNode(testRule.onNodeWithTag(tag))
 
-    actual override fun findViewByText(
-        text: String,
-        viewType: ViewType,
-    ): Node = DefaultNode(testRule.onNodeWithText(text))
+    actual override fun findViewByText(text: String, viewType: ViewType): Node = DefaultNode(testRule.onNodeWithText(text))
 
     actual override fun assert(assertionResult: AssertionResult) {
         when (assertionResult) {
@@ -50,16 +39,12 @@ actual class DefaultApplicationAdapter(
         }
     }
 
-    actual override fun assertFails(assertionResult: AssertionResult) =
-        when (assertionResult) {
-            is AssertionResult.Failure -> Unit
-            is AssertionResult.Success -> Unit
-        }
+    actual override fun assertFails(assertionResult: AssertionResult) = when (assertionResult) {
+        is AssertionResult.Failure -> Unit
+        is AssertionResult.Success -> Unit
+    }
 
-    actual override fun assertUntil(
-        timeout: Duration,
-        blockAssertionResult: () -> AssertionResult,
-    ) {
+    actual override fun assertUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
         testRule.waitUntil(timeout.inWholeMilliseconds) {
             val result = blockAssertionResult()
             if (result is AssertionResult.Failure) {
@@ -69,10 +54,7 @@ actual class DefaultApplicationAdapter(
         }
     }
 
-    actual override fun assertFailsUntil(
-        timeout: Duration,
-        blockAssertionResult: () -> AssertionResult,
-    ) {
+    actual override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
         testRule.waitUntil(timeout.inWholeMilliseconds) {
             blockAssertionResult() is AssertionResult.Failure
         }
