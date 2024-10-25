@@ -9,5 +9,6 @@ interface TestCase {
     interface CrossPlatform : TestCase {
         fun runAndGetAssertions(): List<AssertionResult>
     }
+
     interface Platform : TestCase
 }
