@@ -135,13 +135,13 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    override fun isEnabled(): AssertionResult = assertionResultFor(node::assertIsEnabled)
+    actual override fun isEnabled(): AssertionResult = assertionResultFor(node::assertIsEnabled)
 
-    override fun isNotEnabled(): AssertionResult = assertionResultFor(node::assertIsNotEnabled)
+    actual override fun isNotEnabled(): AssertionResult = assertionResultFor(node::assertIsNotEnabled)
 
-    override fun isSelected(): AssertionResult = assertionResultFor(node::assertIsSelected)
+    actual override fun isSelected(): AssertionResult = assertionResultFor(node::assertIsSelected)
 
-    override fun isNotSelected(): AssertionResult = assertionResultFor(node::assertIsNotSelected)
+    actual override fun isNotSelected(): AssertionResult = assertionResultFor(node::assertIsNotSelected)
 }
 
 actual typealias AssertionBlockReturnType = SemanticsNodeInteraction
