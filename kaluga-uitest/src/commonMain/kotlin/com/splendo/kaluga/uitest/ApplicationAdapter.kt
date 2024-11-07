@@ -13,7 +13,6 @@ class AppNotLaunchedYetException : Throwable() {
 typealias ApplicationArguments = Map<String, String>
 
 interface ApplicationAdapter {
-
     /**
      * Map of arguments passed through the application arguments into the app MainActivity or MainView.
      * Such map contains arguments to set up the app in a state required by certain tests. Both the
@@ -52,10 +51,15 @@ interface ApplicationAdapter {
     fun tearDown()
 
     fun assert(assertionResult: AssertionResult)
+
     fun assertFails(assertionResult: AssertionResult)
+
     fun assertUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult)
+
     fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult)
+
     fun assertAll(assertions: List<AssertionResult>)
+
     fun assertFailsAll(assertions: List<AssertionResult>)
 
     interface TearDownHandler {
@@ -63,11 +67,11 @@ interface ApplicationAdapter {
     }
 
     operator fun get(key: String): String?
+
     operator fun set(key: String, value: String)
 }
 
 abstract class BaseApplicationAdapter : ApplicationAdapter {
-
     private val _applicationArguments = mutableMapOf<String, String>()
     override val applicationArguments: ApplicationArguments
         get() = _applicationArguments
@@ -87,41 +91,30 @@ abstract class BaseApplicationAdapter : ApplicationAdapter {
     }
 
     override operator fun get(key: String): String? = applicationArguments[key]
+
     override operator fun set(key: String, value: String) {
         _applicationArguments[key] = value
     }
 }
 
-expect class DefaultApplicationAdapter: BaseApplicationAdapter {
+expect class DefaultApplicationAdapter : BaseApplicationAdapter {
+    override fun findViewByTag(tag: String, viewType: ViewType): Node
 
-    override fun findViewByTag(
-        tag: String,
-        viewType: ViewType
-    ): Node
-
-    override fun findViewByText(
-        text: String,
-        viewType: ViewType
-    ): Node
+    override fun findViewByText(text: String, viewType: ViewType): Node
 
     override fun assert(assertionResult: AssertionResult)
-    override fun assertFails(assertionResult: AssertionResult)
-    override fun assertUntil(
-        timeout: Duration,
-        blockAssertionResult: () -> AssertionResult
-    )
 
-    override fun assertFailsUntil(
-        timeout: Duration,
-        blockAssertionResult: () -> AssertionResult
-    )
+    override fun assertFails(assertionResult: AssertionResult)
+
+    override fun assertUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult)
+
+    override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult)
 
     override fun assertAll(assertions: List<AssertionResult>)
+
     override fun assertFailsAll(assertions: List<AssertionResult>)
 }
 
-fun ApplicationAdapter.assertAll(vararg assertions: AssertionResult) =
-    assertAll(assertions.toList())
+fun ApplicationAdapter.assertAll(vararg assertions: AssertionResult) = assertAll(assertions.toList())
 
-fun ApplicationAdapter.assertFailsAll(vararg assertions: AssertionResult) =
-    assertFailsAll(assertions.toList())
+fun ApplicationAdapter.assertFailsAll(vararg assertions: AssertionResult) = assertFailsAll(assertions.toList())

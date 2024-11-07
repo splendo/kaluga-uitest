@@ -11,6 +11,7 @@ sealed class ViewType {
     abstract val index: Int
 
     class Images(override val index: Int = 0) : ViewType()
+
     sealed class Text : ViewType() {
         class TextView(override val index: Int = 0) : Text()
 
@@ -20,13 +21,17 @@ sealed class ViewType {
          */
         class StaticText(override val index: Int = 0) : Text()
     }
+
     class TextField(override val index: Int = 0) : ViewType()
 
     /**
      * In iOS this a password textfield.
      */
     class SecureTextField(override val index: Int = 0) : ViewType()
+
     class Button(override val index: Int = 0) : ViewType()
+
     class Group(override val index: Int = 0) : ViewType()
+
     class Any(override val index: Int = 0) : ViewType()
 }

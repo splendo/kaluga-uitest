@@ -1,7 +1,5 @@
 package com.splendo.kaluga.uitest
 
-import kotlin.time.Duration
-import kotlin.time.DurationUnit
 import platform.XCTest.XCUIApplication
 import platform.XCTest.XCUIElement
 import platform.XCTest.XCUIElementTypeAny
@@ -15,17 +13,15 @@ import platform.XCTest.swipeUp
 import platform.XCTest.swipeUpWithVelocity
 import platform.XCTest.tap
 import platform.XCTest.typeText
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
 
-actual class DefaultNode(
-    private val app: XCUIApplication,
-    private val element: XCUIElement
-) : Node {
-
+actual class DefaultNode(private val app: XCUIApplication, private val element: XCUIElement) : Node {
     actual override fun exists(): AssertionResult = assertionResultFor { element.exists() }
 
     actual override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor {
         element.waitForExistenceWithTimeout(
-            timeout.nsTimeInterval
+            timeout.nsTimeInterval,
         )
     }
 
@@ -37,18 +33,16 @@ actual class DefaultNode(
 
     actual override fun isButton(): AssertionResult = assertionResultFor(element::isHittable)
 
-    actual override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult =
-        assertionResultFor { isTextEqualOrContains(value, contains) }
+    actual override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult = assertionResultFor { isTextEqualOrContains(value, contains) }
 
-    actual override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult =
-        assertionResultFor { isTextEqualOrContains(value, contains) }
+    actual override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult = assertionResultFor { isTextEqualOrContains(value, contains) }
 
     actual override fun swipeUntilIndex(index: Int, velocity: Float?) {
         val listElement = listItemAt(index)
         var retries = 0
         while (!listElement.isHittable() && retries < 25) {
             element.swipeUpWithVelocity(
-                velocity = velocity?.toDouble() ?: 20.0
+                velocity = velocity?.toDouble() ?: 20.0,
             )
             retries++
         }
@@ -59,7 +53,7 @@ actual class DefaultNode(
         var retries = 0
         while (!listElement.isHittable() && retries < 25) {
             element.swipeUpWithVelocity(
-                velocity = velocity?.toDouble() ?: 20.0
+                velocity = velocity?.toDouble() ?: 20.0,
             )
             retries++
         }
@@ -88,7 +82,6 @@ actual class DefaultNode(
 //            thenHoldForDuration = 0.1
 //        )
     }
-
 
     actual override fun swipeDown() {
         element.swipeDown()
@@ -170,9 +163,7 @@ actual class DefaultNode(
 
 actual typealias AssertionBlockReturnType = Boolean
 
-actual fun DefaultNode.assertionResultFor(
-    assertionBlock: () -> AssertionBlockReturnType
-): AssertionResult = if (assertionBlock()) {
+actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult = if (assertionBlock()) {
     AssertionResult.Success()
 } else {
     AssertionResult.Failure(AssertionError())

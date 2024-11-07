@@ -25,21 +25,17 @@ import kotlin.time.Duration
 actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
     actual override fun exists(): AssertionResult = assertionResultFor(node::assertExists)
 
-    actual override fun waitExists(timeout: Duration): AssertionResult =
-        assertionResultFor(node:: assertExists)
+    actual override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor(node::assertExists)
 
     actual override fun isVisible(): AssertionResult = assertionResultFor(node::assertIsDisplayed)
 
-    actual override fun isNotVisible(): AssertionResult =
-        assertionResultFor(node::assertIsNotDisplayed)
+    actual override fun isNotVisible(): AssertionResult = assertionResultFor(node::assertIsNotDisplayed)
 
     actual override fun isButton(): AssertionResult = assertionResultFor(node::assertHasClickAction)
 
-    actual override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult =
-        assertionResultFor { node.assertTextEquals(value) }
+    actual override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult = assertionResultFor { node.assertTextEquals(value) }
 
-    actual override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult =
-        assertionResultFor { node.assertTextEquals(value, includeEditableText = false) }
+    actual override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult = assertionResultFor { node.assertTextEquals(value, includeEditableText = false) }
 
     actual override fun typeText(text: String) {
         node.performTextInput(text)
@@ -145,6 +141,7 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 }
 
 actual typealias AssertionBlockReturnType = SemanticsNodeInteraction
+
 actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult = try {
     assertionBlock()
     AssertionResult.Success()

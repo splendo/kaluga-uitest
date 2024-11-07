@@ -3,12 +3,9 @@ package com.splendo.kaluga.uitest.test
 import com.splendo.kaluga.uitest.ApplicationAdapter
 import com.splendo.kaluga.uitest.DefaultApplicationAdapter
 import kotlin.test.Test
-import platform.XCTest.XCTestCase
-import platform.XCTest.XCUIApplication
 
 class ApplicationAdapterTest {
-
-//    private val app = XCUIApplication()
+    //    private val app = XCUIApplication()
 
     private fun runApplicationAdapterTest(block: ApplicationAdapter.() -> Unit) {
         DefaultApplicationAdapter(null).apply(block)

@@ -4,6 +4,7 @@ import kotlin.time.Duration
 
 sealed class AssertionResult {
     class Success : AssertionResult()
+
     class Failure(val exception: AssertionError) : AssertionResult()
 }
 
@@ -81,6 +82,7 @@ interface Node {
      */
 
     fun swipeUp()
+
     /**
      * Does a swipeUp action for a given [SwipeDuration] duration.
      * @param swipeDuration The duration of the swipe.
@@ -149,7 +151,7 @@ interface Node {
      * @param velocity Speed of the swiping action
      */
     fun swipeUntilKey(key: Any, velocity: Float? = null)
-    
+
     /**
      * Returns [AssertionResult.Success] if the [Node] is enabled.
      * Otherwise it returns [AssertionResult.Failure].
@@ -177,40 +179,60 @@ interface Node {
 
 expect class DefaultNode : Node {
     override fun typeText(text: String)
-    override fun exists(): AssertionResult
-    override fun tap()
-    override fun doubleTap()
-    override fun press(duration: Duration)
-    override fun waitExists(timeout: Duration): AssertionResult
-    override fun isVisible(): AssertionResult
-    override fun isNotVisible(): AssertionResult
-    override fun isButton(): AssertionResult
-    override fun isTextEqualTo(
-        value: String,
-        contains: Boolean
-    ): AssertionResult
 
-    override fun isHintEqualTo(
-        value: String,
-        contains: Boolean
-    ): AssertionResult
+    override fun exists(): AssertionResult
+
+    override fun tap()
+
+    override fun doubleTap()
+
+    override fun press(duration: Duration)
+
+    override fun waitExists(timeout: Duration): AssertionResult
+
+    override fun isVisible(): AssertionResult
+
+    override fun isNotVisible(): AssertionResult
+
+    override fun isButton(): AssertionResult
+
+    override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult
+
+    override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult
+
     override fun swipeUp()
+
     override fun swipeUp(swipeDuration: Duration)
+
     override fun swipeUp(startY: Float, endY: Float)
+
     override fun swipeDown()
+
     override fun swipeDown(swipeDuration: Duration)
+
     override fun swipeDown(startY: Float, endY: Float)
+
     override fun swipeLeft()
+
     override fun swipeLeft(startX: Float, endX: Float)
+
     override fun swipeRight()
+
     override fun swipeRight(startX: Float, endX: Float)
+
     override fun swipeUntilIndex(index: Int, velocity: Float?)
+
     override fun swipeUntilKey(key: Any, velocity: Float?)
+
     override fun isEnabled(): AssertionResult
+
     override fun isNotEnabled(): AssertionResult
+
     override fun isSelected(): AssertionResult
+
     override fun isNotSelected(): AssertionResult
 }
 
 expect class AssertionBlockReturnType
+
 expect fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult

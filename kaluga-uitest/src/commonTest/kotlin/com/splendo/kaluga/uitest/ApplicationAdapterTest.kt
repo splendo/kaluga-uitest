@@ -8,7 +8,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class ApplicationAdapterTest {
-
     private lateinit var app: StubApplication
 
     @BeforeTest
@@ -19,11 +18,12 @@ class ApplicationAdapterTest {
     @Test
     fun test_launch_app() {
         app.launch(
-            identifier = null, 
-            arguments = mapOf(
-                "foo" to "bar", 
-                "baz" to "qux"
-            )
+            identifier = null,
+            arguments =
+            mapOf(
+                "foo" to "bar",
+                "baz" to "qux",
+            ),
         )
         assertEquals(1, app.launchCalled)
         assertEquals(mapOf("foo" to "bar", "baz" to "qux"), app.launchArguments)

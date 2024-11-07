@@ -1,6 +1,5 @@
 package com.splendo.kaluga.uitest
 
-import kotlin.time.Duration
 import platform.Foundation.NSPredicate
 import platform.XCTest.XCTWaiter
 import platform.XCTest.XCTestExpectation
@@ -14,6 +13,7 @@ import platform.XCTest.XCUIElementTypeSecureTextField
 import platform.XCTest.XCUIElementTypeStaticText
 import platform.XCTest.XCUIElementTypeTextField
 import platform.XCTest.XCUIElementTypeTextView
+import kotlin.time.Duration
 
 actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationAdapter() {
     private val app: XCUIApplication = app ?: XCUIApplication()
@@ -26,16 +26,18 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     }
 
     actual override fun findViewByTag(tag: String, viewType: ViewType): Node {
-        val element = findDescendantsMatchingType(viewType)
-            .matchingIdentifier(tag)
-            .elementAtIndex(viewType.index.toULong())
+        val element =
+            findDescendantsMatchingType(viewType)
+                .matchingIdentifier(tag)
+                .elementAtIndex(viewType.index.toULong())
         return DefaultNode(app, element)
     }
 
     actual override fun findViewByText(text: String, viewType: ViewType): Node {
-        val element = findDescendantsMatchingType(viewType)
-            .matchingPredicate(NSPredicate.predicateWithFormat("label LIKE $text"))
-            .elementAtIndex(viewType.index.toULong())
+        val element =
+            findDescendantsMatchingType(viewType)
+                .matchingPredicate(NSPredicate.predicateWithFormat("label LIKE $text"))
+                .elementAtIndex(viewType.index.toULong())
         return DefaultNode(app, element)
     }
 
@@ -62,10 +64,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     /**
      * Not called from iOS
      */
-    actual override fun assertUntil(
-        timeout: Duration,
-        blockAssertionResult: () -> AssertionResult
-    ) = assert(blockAssertionResult())
+    actual override fun assertUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) = assert(blockAssertionResult())
 
     /**
      * Not called from iOS
@@ -73,9 +72,9 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
     actual override fun assertFailsUntil(timeout: Duration, blockAssertionResult: () -> AssertionResult) {
         XCTWaiter.waitForExpectations(
             listOf(
-                XCTestExpectation("")
+                XCTestExpectation(""),
             ),
-            timeout = timeout.nsTimeInterval
+            timeout = timeout.nsTimeInterval,
         )
         assertFails(blockAssertionResult())
     }
@@ -84,6 +83,7 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
      * Not called from iOS
      */
     actual override fun assertAll(assertions: List<AssertionResult>) = assert(assertions.first())
+
     actual override fun assertFailsAll(assertions: List<AssertionResult>) {
         assertions.all {
             it is AssertionResult.Failure
@@ -97,12 +97,13 @@ actual class DefaultApplicationAdapter(app: XCUIApplication?) : BaseApplicationA
                 is ViewType.Button -> XCUIElementTypeButton
                 is ViewType.Images -> XCUIElementTypeImage
                 is ViewType.SecureTextField -> XCUIElementTypeSecureTextField
-                is ViewType.Text -> when (viewType) {
-                    is ViewType.Text.TextView -> XCUIElementTypeTextView
-                    is ViewType.Text.StaticText -> XCUIElementTypeStaticText
-                }
+                is ViewType.Text ->
+                    when (viewType) {
+                        is ViewType.Text.TextView -> XCUIElementTypeTextView
+                        is ViewType.Text.StaticText -> XCUIElementTypeStaticText
+                    }
                 is ViewType.TextField -> XCUIElementTypeTextField
                 is ViewType.Group -> XCUIElementTypeGroup
-            }
+            },
         )
 }

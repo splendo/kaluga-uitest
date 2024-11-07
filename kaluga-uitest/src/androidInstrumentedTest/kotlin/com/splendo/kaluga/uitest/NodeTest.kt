@@ -25,9 +25,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
 import androidx.compose.ui.unit.dp
+import org.junit.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
-import org.junit.Test
 
 class NodeTest : BaseAndroidKalugaUITest() {
     @Test
@@ -56,7 +56,7 @@ class NodeTest : BaseAndroidKalugaUITest() {
             Button(
                 { isTextVisible = true },
                 enabled = false,
-                modifier = Modifier.testTag("testButton")
+                modifier = Modifier.testTag("testButton"),
             ) {
                 Text("TestButton")
             }
@@ -83,7 +83,7 @@ class NodeTest : BaseAndroidKalugaUITest() {
                 Button(
                     onClick = {},
                     enabled = false,
-                    modifier = Modifier.testTag("disabledButton")
+                    modifier = Modifier.testTag("disabledButton"),
                 ) {
                     Text("DisabledButton")
                 }
@@ -112,7 +112,7 @@ class NodeTest : BaseAndroidKalugaUITest() {
             textField.isButton(),
             radioButton.isButton(),
             chip.isButton(),
-            floatingButton.isButton()
+            floatingButton.isButton(),
         )
     }
 
@@ -135,7 +135,7 @@ class NodeTest : BaseAndroidKalugaUITest() {
         assertFailsAll(
             text.isButton(),
             slider.isButton(),
-            switch.isButton()
+            switch.isButton(),
         )
     }
 
@@ -164,7 +164,7 @@ class NodeTest : BaseAndroidKalugaUITest() {
                 placeholder = {
                     Text("Placeholder")
                 },
-                modifier = Modifier.testTag("hintTextField")
+                modifier = Modifier.testTag("hintTextField"),
             )
         }
         val hintTextField = findViewByTag("hintTextField")
@@ -172,17 +172,20 @@ class NodeTest : BaseAndroidKalugaUITest() {
         assert(
             hintTextField.isHintEqualTo(
                 "Placeholder",
-                contains = false
-            )
+                contains = false,
+            ),
         )
     }
 
     @Test
     fun test_swiping_shows_hidden_items() = runOnApplicationAdapter {
         testRule.setContent {
-            LazyColumn(modifier = Modifier
-                .height(50.dp)
-                .testTag("testColumn")) {
+            LazyColumn(
+                modifier =
+                Modifier
+                    .height(50.dp)
+                    .testTag("testColumn"),
+            ) {
                 for (index in 1..10) {
                     item(key = index) {
                         Text("Index: $index", modifier = Modifier.testTag("index$index"))
@@ -200,9 +203,12 @@ class NodeTest : BaseAndroidKalugaUITest() {
     @Test
     fun test_swiping_to_element_with_key_shows_hidden_item() = runOnApplicationAdapter {
         testRule.setContent {
-            LazyColumn(modifier = Modifier
-                .height(50.dp)
-                .testTag("testColumn")) {
+            LazyColumn(
+                modifier =
+                Modifier
+                    .height(50.dp)
+                    .testTag("testColumn"),
+            ) {
                 for (index in 1..10) {
                     item(key = "index$index") {
                         Text("Index: $index", modifier = Modifier.testTag("index$index"))
@@ -220,9 +226,12 @@ class NodeTest : BaseAndroidKalugaUITest() {
     @Test
     fun test_swiping_to_element_with_index_shows_hidden_item() = runOnApplicationAdapter {
         testRule.setContent {
-            LazyColumn(modifier = Modifier
-                .height(50.dp)
-                .testTag("testColumn")) {
+            LazyColumn(
+                modifier =
+                Modifier
+                    .height(50.dp)
+                    .testTag("testColumn"),
+            ) {
                 for (index in 1..10) {
                     item(key = "index$index") {
                         Text("Index: $index", modifier = Modifier.testTag("index$index"))
@@ -248,7 +257,7 @@ class NodeTest : BaseAndroidKalugaUITest() {
                     onValueChange = { newValue ->
                         value = newValue
                     },
-                    modifier = Modifier.testTag("testSlider")
+                    modifier = Modifier.testTag("testSlider"),
                 )
                 Text("Slider's value: ${value.toInt()}", modifier = Modifier.testTag("sliderValue"))
             }
@@ -281,17 +290,17 @@ class NodeTest : BaseAndroidKalugaUITest() {
 
     @Test
     fun test_long_tapping_button_sets_correct_value() = runOnApplicationAdapter {
-
         testRule.setContent {
             val interactionSource = remember { MutableInteractionSource() }
             var timerValue by remember { mutableDoubleStateOf(0.0) }
-
 
             LaunchedEffect(interactionSource) {
                 interactionSource.interactions.collect {
                     when (it) {
                         is PressInteraction.Release -> {
-                            timerValue = testRule.mainClock.currentTime.milliseconds.inWholeSeconds.toDouble()
+                            timerValue =
+                                testRule.mainClock.currentTime.milliseconds.inWholeSeconds
+                                    .toDouble()
                         }
                         else -> Unit
                     }
@@ -301,7 +310,7 @@ class NodeTest : BaseAndroidKalugaUITest() {
                 Button(
                     { },
                     interactionSource = interactionSource,
-                    modifier = Modifier.testTag("testButton")
+                    modifier = Modifier.testTag("testButton"),
                 ) {
                     Text("Counter's button")
                 }
@@ -331,14 +340,14 @@ class NodeTest : BaseAndroidKalugaUITest() {
                 Button(
                     onClick = {},
                     enabled = true,
-                    modifier = Modifier.testTag("enabledButton")
+                    modifier = Modifier.testTag("enabledButton"),
                 ) {
                     Text("Enabled Button")
                 }
                 Button(
                     onClick = {},
                     enabled = false,
-                    modifier = Modifier.testTag("disabledButton")
+                    modifier = Modifier.testTag("disabledButton"),
                 ) {
                     Text("Disabled Button")
                 }
@@ -362,7 +371,7 @@ class NodeTest : BaseAndroidKalugaUITest() {
                 Switch(
                     checked = isSelected,
                     onCheckedChange = { isSelected = it },
-                    modifier = Modifier.testTag("testSwitch")
+                    modifier = Modifier.testTag("testSwitch"),
                 )
             }
         }
