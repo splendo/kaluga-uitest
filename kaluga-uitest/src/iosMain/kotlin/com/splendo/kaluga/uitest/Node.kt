@@ -1,32 +1,36 @@
 package com.splendo.kaluga.uitest
 
+import platform.Foundation.NSTimeInterval
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
-import platform.XCTest.XCUIApplication
-import platform.XCTest.XCUIElement
-import platform.XCTest.XCUIElementTypeAny
-import platform.XCTest.doubleTap
-import platform.XCTest.pressForDuration
-import platform.XCTest.swipeDown
-import platform.XCTest.swipeDownWithVelocity
-import platform.XCTest.swipeLeft
-import platform.XCTest.swipeRight
-import platform.XCTest.swipeUp
-import platform.XCTest.swipeUpWithVelocity
-import platform.XCTest.tap
-import platform.XCTest.typeText
+import platform.XCTest.*
+import platform.Foundation.NSPredicate
 
 actual class DefaultNode(
     private val app: XCUIApplication,
     private val element: XCUIElement
 ) : Node {
 
+    fun XCUIElement.waitForExistenceWithTimeout2(timeout: NSTimeInterval): Boolean =
+        when {
+            this.exists -> {
+                true
+            }
+            else -> {
+                val predicate = NSPredicate.predicateWithFormat("exists == TRUE")
+                val result: XCTWaiterResult = XCTWaiter.waitForExpectations(
+                    listOf(XCTNSPredicateExpectation(predicate, this)),
+                    timeout,
+                )
+                result == XCTWaiterResultCompleted
+            }
+        }
+
     actual override fun exists(): AssertionResult = assertionResultFor { element.exists() }
 
     actual override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor {
-        element.waitForExistenceWithTimeout(
-            timeout.nsTimeInterval
-        )
+        // platform.XCTest.waitForExistenceWithTimeout is unreliable and throws exceptions instead the documented return boolean
+        element.waitForExistenceWithTimeout2(timeout.nsTimeInterval)
     }
 
     actual override fun isVisible(): AssertionResult = exists()
