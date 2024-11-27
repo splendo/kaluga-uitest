@@ -26,7 +26,7 @@ actual class DefaultNode(
             }
         }
 
-    fun XCUIElement.waitForNonExistenceWithTimeout(timeout: NSTimeInterval): Boolean =
+    fun XCUIElement.waitForNonExistenceWithTimeout2(timeout: NSTimeInterval): Boolean =
         when {
             this.exists -> {
                 false
@@ -49,7 +49,7 @@ actual class DefaultNode(
     }
 
     actual override fun waitDoesNotExist(timeout: Duration): AssertionResult = assertionResultFor {
-        element.waitForNonExistenceWithTimeout(timeout.nsTimeInterval)
+        element.waitForNonExistenceWithTimeout2(timeout.nsTimeInterval)
     }
 
     actual override fun isVisible(): AssertionResult = exists()
