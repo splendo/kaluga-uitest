@@ -44,6 +44,13 @@ interface Node {
     fun waitExists(timeout: Duration): AssertionResult
 
     /**
+     * Wait for an [Node] to disappear from the view for the given [timeout] time.
+     * Returns an [AssertionResult.Failure] if the [Node] is found or [AssertionResult.Success] instead.
+     * @param timeout Duration in seconds for the [Node] to disappear from the view
+     */
+    fun waitDoesNotExist(timeout: Duration): AssertionResult
+
+    /**
      * Returns [AssertionResult.Success] when the [Node] exists and is visible on the view.
      * If the [Node] exists, but is not visible because is hidden by other views,
      * it returns [AssertionResult.Failure]. Also, when the
@@ -182,6 +189,7 @@ expect class DefaultNode : Node {
     override fun doubleTap()
     override fun press(duration: Duration)
     override fun waitExists(timeout: Duration): AssertionResult
+    override fun waitDoesNotExist(timeout: Duration): AssertionResult
     override fun isVisible(): AssertionResult
     override fun isNotVisible(): AssertionResult
     override fun isButton(): AssertionResult
