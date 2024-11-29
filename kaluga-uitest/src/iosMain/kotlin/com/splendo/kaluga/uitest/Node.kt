@@ -26,21 +26,6 @@ actual class DefaultNode(
             }
         }
 
-    fun XCUIElement.waitForNonExistenceWithTimeout2(timeout: NSTimeInterval): Boolean =
-        when {
-            this.exists -> {
-                false
-            }
-            else -> {
-                val predicate = NSPredicate.predicateWithFormat("exists == FALSE")
-                val result: XCTWaiterResult = XCTWaiter.waitForExpectations(
-                    listOf(XCTNSPredicateExpectation(predicate, this)),
-                    timeout,
-                )
-                result == XCTWaiterResultCompleted
-            }
-        }
-
     actual override fun exists(): AssertionResult = assertionResultFor { element.exists() }
 
     actual override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor {
@@ -49,7 +34,7 @@ actual class DefaultNode(
     }
 
     actual override fun waitDoesNotExist(timeout: Duration): AssertionResult = assertionResultFor {
-        element.waitForNonExistenceWithTimeout2(timeout.nsTimeInterval)
+        element.exists.not()
     }
 
     actual override fun isVisible(): AssertionResult = exists()
