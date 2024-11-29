@@ -33,7 +33,7 @@ actual class DefaultNode(
         element.waitForExistenceWithTimeout2(timeout.nsTimeInterval)
     }
 
-    actual override fun waitDoesNotExist(timeout: Duration): AssertionResult = assertionResultFor {
+    actual override fun doesNotExist(): AssertionResult = assertionResultFor {
         element.exists.not()
     }
 
