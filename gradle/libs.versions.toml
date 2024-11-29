@@ -1,5 +1,5 @@
 [versions]
-androidGradle = "8.7.1"
+androidGradle = "8.7.2"
 androidBuildTools = "34.0.0"
 androidCompileSdk = "34"
 androidMinSdk = "24"
@@ -7,9 +7,9 @@ kotlin = "2.0.21"
 kotlinter = "4.4.1"
 java = "17"
 kotlinxCoroutinesCore = "1.9.0"
-material = "1.7.3"
-composeUITest = "1.7.3"
-compose-runtime = "1.6.11"
+material = "1.7.5"
+composeUITest = "1.7.5"
+compose-runtime = "1.7.1"
 
 [libraries]
 compose-material = { module = "androidx.compose.material:material", version.ref = "material" }
