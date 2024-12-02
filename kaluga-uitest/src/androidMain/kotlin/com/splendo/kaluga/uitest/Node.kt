@@ -29,7 +29,9 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         assertionResultFor(node:: assertExists)
 
     actual override fun doesNotExist(): AssertionResult =
-        assertionResultFor(node::assertDoesNotExist)
+        assertionResultFor {
+            node.assertIsNotDisplayed()
+        }
 
     actual override fun isVisible(): AssertionResult = assertionResultFor(node::assertIsDisplayed)
 
