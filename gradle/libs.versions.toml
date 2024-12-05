@@ -1,5 +1,5 @@
 [versions]
-androidGradle = "8.7.1"
+androidGradle = "8.7.2"
 androidBuildTools = "34.0.0"
 androidCompileSdk = "34"
 androidMinSdk = "24"
