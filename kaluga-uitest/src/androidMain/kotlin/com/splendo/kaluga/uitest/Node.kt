@@ -28,6 +28,11 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
     actual override fun waitExists(timeout: Duration): AssertionResult =
         assertionResultFor(node:: assertExists)
 
+    actual override fun doesNotExist(): AssertionResult =
+        assertionResultFor {
+            node.assertIsNotDisplayed()
+        }
+
     actual override fun isVisible(): AssertionResult = assertionResultFor(node::assertIsDisplayed)
 
     actual override fun isNotVisible(): AssertionResult =

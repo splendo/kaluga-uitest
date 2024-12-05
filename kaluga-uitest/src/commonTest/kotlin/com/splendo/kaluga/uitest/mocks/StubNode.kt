@@ -46,6 +46,13 @@ class StubNode : Node {
         return waitExistsReturn ?: throw IllegalStateException("Must set waitExistsReturn first")
     }
 
+    var doesNotExistCalledTimes = 0
+    var doesNotExistReturn: AssertionResult? = null
+    override fun doesNotExist(): AssertionResult {
+        doesNotExistCalledTimes++
+        return doesNotExistReturn ?: throw IllegalStateException("Must set existsReturn first")
+    }
+
     var isVisibleCalledTimes = 0
     var isVisibleReturn: AssertionResult? = null
     override fun isVisible(): AssertionResult {

@@ -33,6 +33,10 @@ actual class DefaultNode(
         element.waitForExistenceWithTimeout2(timeout.nsTimeInterval)
     }
 
+    actual override fun doesNotExist(): AssertionResult = assertionResultFor {
+        element.exists.not()
+    }
+
     actual override fun isVisible(): AssertionResult = exists()
 
     actual override fun isNotVisible(): AssertionResult = assertionResultFor {
