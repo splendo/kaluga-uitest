@@ -154,6 +154,6 @@ actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockRe
     assertionBlock()
     AssertionResult.Success()
 } catch (e: AssertionError) {
-//     Could take screeshot with node.captureToImage()
+//     Could take screenshot with node.captureToImage()
     AssertionResult.Failure(e)
 }
