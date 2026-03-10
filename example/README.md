@@ -1,0 +1,33 @@
+# kaluga-uitest Example
+
+This directory contains example projects demonstrating how to write UI tests using [kaluga-uitest](https://github.com/splendo/kaluga-uitest).
+
+## Structure
+
+- **`example-shared/`** — Kotlin Multiplatform library with shared test scenarios and UI element tags, used by both Android and iOS tests
+- **`example-android/`** — Android app with a `MainActivity` containing the example UI, and device tests that run the shared scenarios via `DefaultApplicationAdapter`
+- **`example-ios/`** — Xcode project with a SwiftUI app (`ExampleApp`) and UI tests that run the same shared scenarios via `IosAdapterKt.createAdapter()`
+
+## Running the Android tests
+
+```sh
+./gradlew :example-android:connectedAndroidTest
+```
+
+## Running the iOS tests
+
+```sh
+xcodebuild test \
+  -project example-ios/ExampleApp.xcodeproj \
+  -scheme ExampleApp \
+  -destination 'platform=iOS Simulator,name=iPhone 17'
+```
+
+## Testing against the published artifact
+
+By default this project uses a [composite build](https://docs.gradle.org/current/userguide/composite_builds.html) to substitute `com.splendo.kaluga.uitest:kaluga-uitest` with the local source. To test against a specific published version from Maven Central instead, comment out the `includeBuild` line in `settings.gradle.kts` and set the desired version in the root `gradle/libs.versions.toml`:
+
+```toml
+[versions]
+kalugaUitest = "0.3.0"  # change to the version you want to test
+```
