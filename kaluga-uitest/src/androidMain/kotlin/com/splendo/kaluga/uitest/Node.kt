@@ -6,8 +6,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.assertIsNotSelected
-import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.doubleClick
 import androidx.compose.ui.test.longClick
@@ -94,7 +96,7 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 
     actual override fun swipeUp(startY: Float, endY: Float) {
         node.performTouchInput {
-            swipeUp(startY = startY, endY = endY)
+            swipeUp(startY = visibleSize.height * startY, endY = visibleSize.height * endY)
         }
     }
 
@@ -112,7 +114,7 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 
     actual override fun swipeDown(startY: Float, endY: Float) {
         node.performTouchInput {
-            swipeDown(startY = startY, endY = endY)
+            swipeDown(startY = visibleSize.height * startY, endY = visibleSize.height * endY)
         }
     }
 
@@ -124,7 +126,7 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 
     actual override fun swipeLeft(startX: Float, endX: Float) {
         node.performTouchInput {
-            swipeLeft(startX = startX, endX = endX)
+            swipeLeft(startX = visibleSize.width * startX, endX = visibleSize.width * endX)
         }
     }
 
@@ -136,7 +138,7 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 
     actual override fun swipeRight(startX: Float, endX: Float) {
         node.performTouchInput {
-            swipeRight(startX = startX, endX = endX)
+            swipeRight(startX = visibleSize.width * startX, endX = visibleSize.width * endX)
         }
     }
 
@@ -144,9 +146,19 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 
     actual override fun isNotEnabled(): AssertionResult = assertionResultFor(node::assertIsNotEnabled)
 
-    actual override fun isSelected(): AssertionResult = assertionResultFor(node::assertIsSelected)
+    actual override fun isSelected(): AssertionResult = assertionResultFor {
+        node.assert(
+            SemanticsMatcher.expectValue(SemanticsProperties.ToggleableState, ToggleableState.On)
+                .or(SemanticsMatcher.expectValue(SemanticsProperties.Selected, true))
+        )
+    }
 
-    actual override fun isNotSelected(): AssertionResult = assertionResultFor(node::assertIsNotSelected)
+    actual override fun isNotSelected(): AssertionResult = assertionResultFor {
+        node.assert(
+            SemanticsMatcher.expectValue(SemanticsProperties.ToggleableState, ToggleableState.Off)
+                .or(SemanticsMatcher.expectValue(SemanticsProperties.Selected, false))
+        )
+    }
 }
 
 actual typealias AssertionBlockReturnType = SemanticsNodeInteraction
