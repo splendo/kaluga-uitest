@@ -6,7 +6,7 @@ concurrency: publish-${{ github.ref_name }}
 
 jobs:
   publish:
-    runs-on: macos-15
+    runs-on: macos-26
     env:
       ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
       ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
