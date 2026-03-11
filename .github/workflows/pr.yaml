@@ -41,7 +41,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
 
       - name: Build and host tests
-        run: ./gradlew :kaluga-uitest:testAndroidHostTestDebugUnitTest
+        run: ./gradlew :kaluga-uitest:testAndroidHostTest
 
       - name: Build example
         run: ./gradlew :example-android:assembleDebug
@@ -126,6 +126,10 @@ jobs:
           xcode-version: '16.4'
 
       - uses: gradle/actions/setup-gradle@v3
+
+      - name: Pre-warm Gradle for Xcode build script
+        run: ./gradlew help
+        working-directory: example
 
       - name: Run iOS example tests
         run: |

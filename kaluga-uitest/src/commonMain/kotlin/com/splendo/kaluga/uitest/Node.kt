@@ -4,7 +4,10 @@ import kotlin.time.Duration
 
 sealed class AssertionResult {
     class Success : AssertionResult()
-    class Failure(val exception: AssertionError) : AssertionResult()
+
+    class Failure(
+        val exception: AssertionError,
+    ) : AssertionResult()
 }
 
 interface Node {
@@ -73,20 +76,27 @@ interface Node {
      * @param value Expected content of the [Node].
      * @param contains If true it will try to find a match in the substrings of the text.
      */
-    fun isTextEqualTo(value: String, contains: Boolean): AssertionResult
+    fun isTextEqualTo(
+        value: String,
+        contains: Boolean,
+    ): AssertionResult
 
     /**
      * Validates whether a [Node]'s value is equal to a given hint.
      * @param value Expected content of the [Node].
      * @param contains If true it will try to find a match in the substrings of the hint.
      */
-    fun isHintEqualTo(value: String, contains: Boolean): AssertionResult
+    fun isHintEqualTo(
+        value: String,
+        contains: Boolean,
+    ): AssertionResult
 
     /**
      * Does a swipeUp action on an element.
      */
 
     fun swipeUp()
+
     /**
      * Does a swipeUp action for a given [SwipeDuration] duration.
      * @param swipeDuration The duration of the swipe.
@@ -98,7 +108,10 @@ interface Node {
      * @param startY Start position as a fraction (0.0–1.0) of the element's height
      * @param endY End position as a fraction (0.0–1.0) of the element's height
      */
-    fun swipeUp(startY: Float, endY: Float)
+    fun swipeUp(
+        startY: Float,
+        endY: Float,
+    )
 
     /**
      * Does a swipeDown action on an element.
@@ -116,7 +129,10 @@ interface Node {
      * @param startY Start position as a fraction (0.0–1.0) of the element's height
      * @param endY End position as a fraction (0.0–1.0) of the element's height
      */
-    fun swipeDown(startY: Float, endY: Float)
+    fun swipeDown(
+        startY: Float,
+        endY: Float,
+    )
 
     /**
      * Does a swipeLeft action on an element.
@@ -128,7 +144,10 @@ interface Node {
      * @param startX Start position as a fraction (0.0–1.0) of the element's width; must be greater than [endX]
      * @param endX End position as a fraction (0.0–1.0) of the element's width; must be less than [startX]
      */
-    fun swipeLeft(startX: Float, endX: Float)
+    fun swipeLeft(
+        startX: Float,
+        endX: Float,
+    )
 
     /**
      * Does a swipeRight action on an element.
@@ -140,22 +159,31 @@ interface Node {
      * @param startX Start position as a fraction (0.0–1.0) of the element's width; must be less than [endX]
      * @param endX End position as a fraction (0.0–1.0) of the element's width; must be greater than [startX]
      */
-    fun swipeRight(startX: Float, endX: Float)
+    fun swipeRight(
+        startX: Float,
+        endX: Float,
+    )
 
     /**
      * Swipe the [Node] until the View with the given index is visible.
      * @param index Index of the view inside a scrollable view
      * @param velocity Speed of the swiping action
      */
-    fun swipeUntilIndex(index: Int, velocity: Float? = null)
+    fun swipeUntilIndex(
+        index: Int,
+        velocity: Float? = null,
+    )
 
     /**
      * Swipe the [Node] until the View with the given key is visible.
      * @param index Index of the view inside a scrollable view
      * @param velocity Speed of the swiping action
      */
-    fun swipeUntilKey(key: Any, velocity: Float? = null)
-    
+    fun swipeUntilKey(
+        key: Any,
+        velocity: Float? = null,
+    )
+
     /**
      * Returns [AssertionResult.Success] if the [Node] is enabled.
      * Otherwise it returns [AssertionResult.Failure].
@@ -183,41 +211,86 @@ interface Node {
 
 expect class DefaultNode : Node {
     override fun typeText(text: String)
+
     override fun exists(): AssertionResult
+
     override fun tap()
+
     override fun doubleTap()
+
     override fun press(duration: Duration)
+
     override fun waitExists(timeout: Duration): AssertionResult
+
     override fun doesNotExist(): AssertionResult
+
     override fun isVisible(): AssertionResult
+
     override fun isNotVisible(): AssertionResult
+
     override fun isButton(): AssertionResult
+
     override fun isTextEqualTo(
         value: String,
-        contains: Boolean
+        contains: Boolean,
     ): AssertionResult
 
     override fun isHintEqualTo(
         value: String,
-        contains: Boolean
+        contains: Boolean,
     ): AssertionResult
+
     override fun swipeUp()
+
     override fun swipeUp(swipeDuration: Duration)
-    override fun swipeUp(startY: Float, endY: Float)
+
+    override fun swipeUp(
+        startY: Float,
+        endY: Float,
+    )
+
     override fun swipeDown()
+
     override fun swipeDown(swipeDuration: Duration)
-    override fun swipeDown(startY: Float, endY: Float)
+
+    override fun swipeDown(
+        startY: Float,
+        endY: Float,
+    )
+
     override fun swipeLeft()
-    override fun swipeLeft(startX: Float, endX: Float)
+
+    override fun swipeLeft(
+        startX: Float,
+        endX: Float,
+    )
+
     override fun swipeRight()
-    override fun swipeRight(startX: Float, endX: Float)
-    override fun swipeUntilIndex(index: Int, velocity: Float?)
-    override fun swipeUntilKey(key: Any, velocity: Float?)
+
+    override fun swipeRight(
+        startX: Float,
+        endX: Float,
+    )
+
+    override fun swipeUntilIndex(
+        index: Int,
+        velocity: Float?,
+    )
+
+    override fun swipeUntilKey(
+        key: Any,
+        velocity: Float?,
+    )
+
     override fun isEnabled(): AssertionResult
+
     override fun isNotEnabled(): AssertionResult
+
     override fun isSelected(): AssertionResult
+
     override fun isNotSelected(): AssertionResult
 }
 
 expect class AssertionBlockReturnType
+
 expect fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult
