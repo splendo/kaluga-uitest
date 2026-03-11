@@ -1,9 +1,6 @@
 name: PR checks
 on:
   pull_request:
-  push:
-    branches:
-      - feature/github-actions
 
 jobs:
   lint:
