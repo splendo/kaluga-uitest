@@ -11,9 +11,9 @@ tasks.register("clean", Delete::class) {
     delete(layout.buildDirectory)
 }
 
-val kalugaVersion = libs.versions.kalugaUitest.get()
+val kalugaUitestVersion = libs.versions.kalugaUitest.get()
 
 subprojects {
     group = "com.splendo.kaluga.uitest"
-    version = kalugaVersion
+    version = kalugaUitestVersion
 }
