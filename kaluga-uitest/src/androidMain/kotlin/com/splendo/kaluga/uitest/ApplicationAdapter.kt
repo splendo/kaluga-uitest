@@ -34,12 +34,18 @@ actual class DefaultApplicationAdapter(
     actual override fun findViewByTag(
         tag: String,
         viewType: ViewType,
-    ): Node = DefaultNode(testRule.onNodeWithTag(tag))
+    ): Node {
+        checkLaunched()
+        return DefaultNode(testRule.onNodeWithTag(tag))
+    }
 
     actual override fun findViewByText(
         text: String,
         viewType: ViewType,
-    ): Node = DefaultNode(testRule.onNodeWithText(text))
+    ): Node {
+        checkLaunched()
+        return DefaultNode(testRule.onNodeWithText(text))
+    }
 
     actual override fun assert(assertionResult: AssertionResult) {
         when (assertionResult) {

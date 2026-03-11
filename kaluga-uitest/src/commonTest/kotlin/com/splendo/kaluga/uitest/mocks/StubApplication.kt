@@ -28,6 +28,7 @@ class StubApplication : BaseApplicationAdapter() {
         tag: String,
         viewType: ViewType,
     ): Node {
+        checkLaunched()
         findViewWithTagCalled++
         findViewWithTagCalledWith = tag
         return nodeWithTagToReturn ?: throw IllegalStateException(
@@ -43,6 +44,7 @@ class StubApplication : BaseApplicationAdapter() {
         text: String,
         viewType: ViewType,
     ): Node {
+        checkLaunched()
         findViewWithTextCalled++
         findViewWithTextCalledWith = text
         return nodeWithTextToReturn ?: throw IllegalStateException(

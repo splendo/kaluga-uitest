@@ -96,6 +96,10 @@ abstract class BaseApplicationAdapter : ApplicationAdapter {
 
     private var isAppLaunched = false
 
+    protected fun checkLaunched() {
+        if (!isAppLaunched) throw AppNotLaunchedYetException()
+    }
+
     override fun launch(
         identifier: String?,
         arguments: Map<String, String>,

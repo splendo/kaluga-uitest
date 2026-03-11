@@ -35,6 +35,7 @@ actual class DefaultApplicationAdapter(
         tag: String,
         viewType: ViewType,
     ): Node {
+        checkLaunched()
         val element =
             findDescendantsMatchingType(viewType)
                 .matchingIdentifier(tag)
@@ -46,6 +47,7 @@ actual class DefaultApplicationAdapter(
         text: String,
         viewType: ViewType,
     ): Node {
+        checkLaunched()
         val element =
             findDescendantsMatchingType(viewType)
                 .matchingPredicate(NSPredicate.predicateWithFormat("label LIKE $text"))
