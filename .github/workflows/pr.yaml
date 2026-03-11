@@ -137,7 +137,7 @@ jobs:
           xcodebuild test \
             -project example/example-ios/ExampleApp.xcodeproj \
             -scheme ExampleApp \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination 'platform=iOS Simulator,OS=18.5,name=iPhone 16' \
             | tee xcodebuild.log | xcpretty
 
       - name: Upload xcodebuild log
