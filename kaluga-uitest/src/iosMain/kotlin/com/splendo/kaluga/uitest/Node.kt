@@ -161,10 +161,12 @@ actual class DefaultNode(
         !element.isSelected() && element.value() as? String != "1"
     }
 
-    private fun isTextEqualOrContains(value: String, contains: Boolean): Boolean = if (contains) {
-        (element.value() as? String)?.contains(value) == true
-    } else {
-        element.value() == value
+    private fun isTextEqualOrContains(
+        value: String,
+        contains: Boolean,
+    ): Boolean {
+        val text = (element.value() as? String)?.takeIf { it.isNotEmpty() } ?: element.label
+        return if (contains) text.contains(value) else text == value
     }
 
     private fun listItemAt(index: Int) = element

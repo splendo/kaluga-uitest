@@ -1,5 +1,5 @@
 [versions]
-kalugaUitest = "0.3.0"
+kalugaUitest = "0.4.0"
 androidGradle = "9.1.0"
 androidBuildTools = "34.0.0"
 androidCompileSdk = "36"
