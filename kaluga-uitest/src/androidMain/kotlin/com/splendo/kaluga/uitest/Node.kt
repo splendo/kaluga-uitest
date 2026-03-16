@@ -1,15 +1,15 @@
 package com.splendo.kaluga.uitest
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.state.ToggleableState
-import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.doubleClick
 import androidx.compose.ui.test.longClick
@@ -24,11 +24,12 @@ import androidx.compose.ui.test.swipeRight
 import androidx.compose.ui.test.swipeUp
 import kotlin.time.Duration
 
-actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
+actual class DefaultNode(
+    internal val node: SemanticsNodeInteraction,
+) : Node {
     actual override fun exists(): AssertionResult = assertionResultFor(node::assertExists)
 
-    actual override fun waitExists(timeout: Duration): AssertionResult =
-        assertionResultFor(node:: assertExists)
+    actual override fun waitExists(timeout: Duration): AssertionResult = assertionResultFor(node::assertExists)
 
     actual override fun doesNotExist(): AssertionResult =
         assertionResultFor {
@@ -37,16 +38,19 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 
     actual override fun isVisible(): AssertionResult = assertionResultFor(node::assertIsDisplayed)
 
-    actual override fun isNotVisible(): AssertionResult =
-        assertionResultFor(node::assertIsNotDisplayed)
+    actual override fun isNotVisible(): AssertionResult = assertionResultFor(node::assertIsNotDisplayed)
 
     actual override fun isButton(): AssertionResult = assertionResultFor(node::assertHasClickAction)
 
-    actual override fun isTextEqualTo(value: String, contains: Boolean): AssertionResult =
-        assertionResultFor { node.assertTextEquals(value) }
+    actual override fun isTextEqualTo(
+        value: String,
+        contains: Boolean,
+    ): AssertionResult = assertionResultFor { node.assertTextEquals(value) }
 
-    actual override fun isHintEqualTo(value: String, contains: Boolean): AssertionResult =
-        assertionResultFor { node.assertTextEquals(value, includeEditableText = false) }
+    actual override fun isHintEqualTo(
+        value: String,
+        contains: Boolean,
+    ): AssertionResult = assertionResultFor { node.assertTextEquals(value, includeEditableText = false) }
 
     actual override fun typeText(text: String) {
         node.performTextInput(text)
@@ -64,7 +68,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         node.performTouchInput { longClick(durationMillis = duration.inWholeMilliseconds) }
     }
 
-    actual override fun swipeUntilIndex(index: Int, velocity: Float?) {
+    actual override fun swipeUntilIndex(
+        index: Int,
+        velocity: Float?,
+    ) {
         try {
             node.performScrollToIndex(index)
         } catch (e: IllegalArgumentException) {
@@ -73,7 +80,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    actual override fun swipeUntilKey(key: Any, velocity: Float?) {
+    actual override fun swipeUntilKey(
+        key: Any,
+        velocity: Float?,
+    ) {
         try {
             node.performScrollToKey(key)
         } catch (e: IllegalArgumentException) {
@@ -94,7 +104,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    actual override fun swipeUp(startY: Float, endY: Float) {
+    actual override fun swipeUp(
+        startY: Float,
+        endY: Float,
+    ) {
         node.performTouchInput {
             swipeUp(startY = visibleSize.height * startY, endY = visibleSize.height * endY)
         }
@@ -112,7 +125,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    actual override fun swipeDown(startY: Float, endY: Float) {
+    actual override fun swipeDown(
+        startY: Float,
+        endY: Float,
+    ) {
         node.performTouchInput {
             swipeDown(startY = visibleSize.height * startY, endY = visibleSize.height * endY)
         }
@@ -124,7 +140,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    actual override fun swipeLeft(startX: Float, endX: Float) {
+    actual override fun swipeLeft(
+        startX: Float,
+        endX: Float,
+    ) {
         node.performTouchInput {
             swipeLeft(startX = visibleSize.width * startX, endX = visibleSize.width * endX)
         }
@@ -136,7 +155,10 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
         }
     }
 
-    actual override fun swipeRight(startX: Float, endX: Float) {
+    actual override fun swipeRight(
+        startX: Float,
+        endX: Float,
+    ) {
         node.performTouchInput {
             swipeRight(startX = visibleSize.width * startX, endX = visibleSize.width * endX)
         }
@@ -146,26 +168,32 @@ actual class DefaultNode(internal val node: SemanticsNodeInteraction) : Node {
 
     actual override fun isNotEnabled(): AssertionResult = assertionResultFor(node::assertIsNotEnabled)
 
-    actual override fun isSelected(): AssertionResult = assertionResultFor {
-        node.assert(
-            SemanticsMatcher.expectValue(SemanticsProperties.ToggleableState, ToggleableState.On)
-                .or(SemanticsMatcher.expectValue(SemanticsProperties.Selected, true))
-        )
-    }
+    actual override fun isSelected(): AssertionResult =
+        assertionResultFor {
+            node.assert(
+                SemanticsMatcher
+                    .expectValue(SemanticsProperties.ToggleableState, ToggleableState.On)
+                    .or(SemanticsMatcher.expectValue(SemanticsProperties.Selected, true)),
+            )
+        }
 
-    actual override fun isNotSelected(): AssertionResult = assertionResultFor {
-        node.assert(
-            SemanticsMatcher.expectValue(SemanticsProperties.ToggleableState, ToggleableState.Off)
-                .or(SemanticsMatcher.expectValue(SemanticsProperties.Selected, false))
-        )
-    }
+    actual override fun isNotSelected(): AssertionResult =
+        assertionResultFor {
+            node.assert(
+                SemanticsMatcher
+                    .expectValue(SemanticsProperties.ToggleableState, ToggleableState.Off)
+                    .or(SemanticsMatcher.expectValue(SemanticsProperties.Selected, false)),
+            )
+        }
 }
 
 actual typealias AssertionBlockReturnType = SemanticsNodeInteraction
-actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult = try {
-    assertionBlock()
-    AssertionResult.Success()
-} catch (e: AssertionError) {
+
+actual fun DefaultNode.assertionResultFor(assertionBlock: () -> AssertionBlockReturnType): AssertionResult =
+    try {
+        assertionBlock()
+        AssertionResult.Success()
+    } catch (e: AssertionError) {
 //     Could take screenshot with node.captureToImage()
-    AssertionResult.Failure(e)
-}
+        AssertionResult.Failure(e)
+    }

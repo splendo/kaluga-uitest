@@ -93,6 +93,7 @@ kotlin {
 
 mavenPublishing {
     publishToMavenCentral()
+    signAllPublications()
 
     pom {
         name.set(project.name)
