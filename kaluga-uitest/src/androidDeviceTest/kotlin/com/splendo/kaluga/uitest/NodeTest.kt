@@ -256,8 +256,8 @@ class NodeTest : BaseAndroidKalugaUITest() {
         val slider = findViewByTag("testSlider")
         val text = findViewByTag("sliderValue")
         assert(text.isTextEqualTo("Slider's value: 0", contains = false))
-        slider.swipeRight(0f, 252f)
-        assert(text.isTextEqualTo("Slider's value: 50", contains = false))
+        slider.swipeRight(0f, 1f)
+        assert(text.isTextEqualTo("Slider's value: 100", contains = false))
     }
 
     @Test

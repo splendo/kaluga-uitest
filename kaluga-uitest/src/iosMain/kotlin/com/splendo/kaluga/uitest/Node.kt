@@ -13,7 +13,7 @@ actual class DefaultNode(
 
     fun XCUIElement.waitForExistenceWithTimeout2(timeout: NSTimeInterval): Boolean =
         when {
-            this.exists -> {
+            this.exists() -> {
                 true
             }
             else -> {
@@ -34,7 +34,7 @@ actual class DefaultNode(
     }
 
     actual override fun doesNotExist(): AssertionResult = assertionResultFor {
-        element.exists.not()
+        element.exists().not()
     }
 
     actual override fun isVisible(): AssertionResult = exists()
@@ -63,7 +63,7 @@ actual class DefaultNode(
     }
 
     actual override fun swipeUntilKey(key: Any, velocity: Float?) {
-        val listElement = listItemWithTag(key.toString()).element
+        val listElement = listItemWithTag(key.toString()).element()
         var retries = 0
         while (!listElement.isHittable() && retries < 25) {
             element.swipeUpWithVelocity(
@@ -127,7 +127,7 @@ actual class DefaultNode(
     }
 
     actual override fun typeText(text: String) {
-        if (!element.hasFocus) {
+        if (!element.hasFocus()) {
             element.tap()
         }
         element.typeText(text)
@@ -154,17 +154,19 @@ actual class DefaultNode(
     }
 
     actual override fun isSelected(): AssertionResult = assertionResultFor {
-        element.isSelected()
+        element.isSelected() || element.value() as? String == "1"
     }
 
     actual override fun isNotSelected(): AssertionResult = assertionResultFor {
-        !element.isSelected()
+        !element.isSelected() && element.value() as? String != "1"
     }
 
-    private fun isTextEqualOrContains(value: String, contains: Boolean): Boolean = if (contains) {
-        (element.value as? String)?.contains(value) == true
-    } else {
-        element.value == value
+    private fun isTextEqualOrContains(
+        value: String,
+        contains: Boolean,
+    ): Boolean {
+        val text = (element.value() as? String)?.takeIf { it.isNotEmpty() } ?: element.label
+        return if (contains) text.contains(value) else text == value
     }
 
     private fun listItemAt(index: Int) = element

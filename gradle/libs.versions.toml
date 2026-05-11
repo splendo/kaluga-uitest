@@ -1,27 +1,35 @@
 [versions]
-androidGradle = "8.7.3"
+kalugaUitest = "0.4.0"
+androidGradle = "9.1.0"
 androidBuildTools = "34.0.0"
-androidCompileSdk = "34"
+androidCompileSdk = "36"
 androidMinSdk = "24"
-kotlin = "2.1.0"
-kotlinter = "5.0.1"
-java = "17"
-kotlinxCoroutinesCore = "1.9.0"
-material = "1.7.3"
-composeUITest = "1.7.3"
-compose-runtime = "1.6.11"
+kotlin = "2.3.20-RC2"
+kotlinter = "5.4.2"
+vanniktechPublish = "0.36.0"
+java = "21"
+kotlinxCoroutinesCore = "1.10.2"
+material = "1.10.4"
+composeUITest = "1.10.4"
+compose-runtime = "1.10.2"
+activityCompose = "1.9.3"
 
 [libraries]
+kaluga-uitest = { module = "com.splendo.kaluga.uitest:kaluga-uitest", version.ref = "kalugaUitest" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "material" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "composeUITest" }
 compose-uiTestJunit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeUITest" }
 compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeUITest" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-runtime" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 
 [plugins]
-android-library = { id = "com.android.library", version.ref = "androidGradle" }
+android-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradle" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
+vanniktechPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktechPublish" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "androidGradle" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 

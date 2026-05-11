@@ -94,9 +94,9 @@ interface Node {
     fun swipeUp(swipeDuration: Duration)
 
     /**
-     * Does a swipeUp action from [startY] to [endY] coordinates on the view.
-     * @param startY Start coordinate
-     * @param endY End coordinate
+     * Does a swipeUp action from [startY] to [endY] on the view.
+     * @param startY Start position as a fraction (0.0–1.0) of the element's height
+     * @param endY End position as a fraction (0.0–1.0) of the element's height
      */
     fun swipeUp(startY: Float, endY: Float)
 
@@ -112,9 +112,9 @@ interface Node {
     fun swipeDown(swipeDuration: Duration)
 
     /**
-     * Does a swipeDown action from [startY] to [endY] coordinates on the view.
-     * @param startY Start coordinate
-     * @param endY End coordinate
+     * Does a swipeDown action from [startY] to [endY] on the view.
+     * @param startY Start position as a fraction (0.0–1.0) of the element's height
+     * @param endY End position as a fraction (0.0–1.0) of the element's height
      */
     fun swipeDown(startY: Float, endY: Float)
 
@@ -124,9 +124,9 @@ interface Node {
     fun swipeLeft()
 
     /**
-     * Does a swipeLeft action from [startX] to [endX] coordinates on the view.
-     * @param startX Start coordinate is greater than [endX]
-     * @param endX End coordinate is smaller than [startX]
+     * Does a swipeLeft action from [startX] to [endX] on the view.
+     * @param startX Start position as a fraction (0.0–1.0) of the element's width; must be greater than [endX]
+     * @param endX End position as a fraction (0.0–1.0) of the element's width; must be less than [startX]
      */
     fun swipeLeft(startX: Float, endX: Float)
 
@@ -136,9 +136,9 @@ interface Node {
     fun swipeRight()
 
     /**
-     * Does a swipeRight action from [startX] to [endX] coordinates on the view.
-     * @param startX Start coordinate is smaller than [endX]
-     * @param endX End coordinate is greater than [startX]
+     * Does a swipeRight action from [startX] to [endX] on the view.
+     * @param startX Start position as a fraction (0.0–1.0) of the element's width; must be less than [endX]
+     * @param endX End position as a fraction (0.0–1.0) of the element's width; must be greater than [startX]
      */
     fun swipeRight(startX: Float, endX: Float)
 
